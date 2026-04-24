@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './Navbar.module.css';
-import { apiFetch, hasAdminSession } from '../utils/api';
+import { apiFetch, hasAdminSession, invalidateAdminSessionCache } from '../utils/api';
 import content from '../content/siteContent.json';
 
 export default function Navbar() {
@@ -40,6 +40,7 @@ export default function Navbar() {
         } catch (error) {
             console.error('Logout failed:', error);
         }
+        invalidateAdminSessionCache();
         setIsAuthenticated(false);
         navigate('/');
         setMenuOpen(false);

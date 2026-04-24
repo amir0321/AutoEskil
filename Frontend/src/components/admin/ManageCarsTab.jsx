@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from '../../pages/Admin.module.css';
 import EditCarModal from '../EditCarModal';
 import MessageModal from '../MessageModal';
 import DeleteConfirmModal from '../DeleteConfirmModal';
-import { Trash2, Edit } from 'lucide-react';
+import { Trash2, Edit, Search, X } from 'lucide-react';
+import { TableLoadingSkeleton } from '../LoadingSkeleton';
 import { adminFetch } from '../../utils/api';
 import content from '../../content/siteContent.json';
+import { Link } from 'react-router-dom';
 
 export default function ManageCarsTab() {
     const [cars, setCars] = useState([]);
@@ -13,6 +15,20 @@ export default function ManageCarsTab() {
     const [editingCar, setEditingCar] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [pendingDelete, setPendingDelete] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredCars = useMemo(() => {
+        if (!searchQuery.trim()) return cars;
+        const query = searchQuery.toLowerCase();
+        return cars.filter(car => 
+            car.brand.toLowerCase().includes(query) ||
+            car.model.toLowerCase().includes(query) ||
+            (car.variant || '').toLowerCase().includes(query) ||
+            (car.color || '').toLowerCase().includes(query) ||
+            car.year.toString().includes(query) ||
+            car.price.toString().includes(query)
+        );
+    }, [cars, searchQuery]);
 
     useEffect(() => {
         let isMounted = true;
@@ -62,7 +78,7 @@ export default function ManageCarsTab() {
         }
     };
 
-    if (loading) return <div className={styles.loadingText}>{content.manageCarsTab.loading}</div>;
+    if (loading) return <TableLoadingSkeleton rows={5} columns={7} />;
     if (cars.length === 0) return <div className={styles.emptyText}>{content.manageCarsTab.empty}</div>;
 
     return (
@@ -90,7 +106,23 @@ export default function ManageCarsTab() {
             )}
             <div className={styles.manageHeader}>
                 <h2 className={styles.manageTitle}>{content.manageCarsTab.title}</h2>
-                <p className={styles.manageSub}>{cars.length} {content.manageCarsTab.countSuffix}</p>
+                <p className={styles.manageSub}>{filteredCars.length} {content.manageCarsTab.countSuffix}</p>
+            </div>
+            <div className={styles.filterBar}>
+                <div className={styles.filterInput}>
+                    <input
+                        type="text"
+                        placeholder="Sök efter märke, modell, kaross, färg, år eller pris..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
+                {searchQuery && (
+                    <button className={styles.clearButton} onClick={() => setSearchQuery('')}>
+                        <X size={16} style={{ marginRight: '0.3rem' }} />
+                        Rensa
+                    </button>
+                )}
             </div>
             <div className={styles.tableWrapper}>
                 <table className={styles.table}>
@@ -100,18 +132,25 @@ export default function ManageCarsTab() {
                         </tr>
                     </thead>
                     <tbody>
-                        {cars.map(car => (
+                        {filteredCars.map(car => (
                             <tr key={car.id}>
                                 <td>
-                                    <img
-                                        src={(car.images && car.images[0]) || content.manageCarsTab.thumbnailPlaceholder}
-                                        alt={car.brand}
-                                        className={styles.thumbImg}
-                                    />
+                                    <Link to={`/bilar/${car.id}`} className={styles.thumbLink}>
+                                        <img
+                                            src={(car.images && car.images[0]) || content.manageCarsTab.thumbnailPlaceholder}
+                                            alt={car.brand}
+                                            className={styles.thumbImg}
+                                        />
+                                    </Link>
                                 </td>
                                 <td>
                                     <span className={styles.carName}>{car.brand}</span>
                                     <span className={styles.carModel}>{car.model}</span>
+                                    {(car.variant || car.color) && (
+                                        <span className={styles.carModel}>
+                                            {[car.variant && `Kaross: ${car.variant}`, car.color && `Färg: ${car.color}`].filter(Boolean).join(' • ')}
+                                        </span>
+                                    )}
                                 </td>
                                 <td>{car.year}</td>
                                 <td>{Number(car.mileage).toLocaleString('sv-SE')} mil</td>

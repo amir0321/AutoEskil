@@ -17,6 +17,15 @@ async function migrateLeadsTable(db) {
   );
   const leadsSql = leadsTable && leadsTable.sql ? leadsTable.sql : "";
 
+  // Check if source and status columns exist
+  const hasSourceColumn = leadsSql.includes("source");
+  const hasStatusColumn = leadsSql.includes("status");
+
+  // If both columns already exist, no migration needed
+  if (hasSourceColumn && hasStatusColumn) {
+    return;
+  }
+
   const hasLegacyUniqueInSchema =
     leadsSql.includes("customer_email TEXT NOT NULL UNIQUE") ||
     leadsSql.includes("customer_phone TEXT NOT NULL UNIQUE");
@@ -42,10 +51,6 @@ async function migrateLeadsTable(db) {
 
   const hasLegacyUnique = hasLegacyUniqueInSchema || hasLegacyUniqueInIndexes;
 
-  if (!hasLegacyUnique) {
-    return;
-  }
-
   await db.exec("PRAGMA foreign_keys = OFF");
 
   try {
@@ -63,6 +68,8 @@ async function migrateLeadsTable(db) {
                 max_mileage INTEGER,
                 max_budget INTEGER,
                 requirements TEXT,
+                source TEXT DEFAULT 'contact',
+                status TEXT DEFAULT 'active',
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             );
         `);
@@ -71,26 +78,42 @@ async function migrateLeadsTable(db) {
             INSERT INTO leads_new (
                 id, customer_name, customer_email, customer_phone,
                 preferred_brand, preferred_model, preferred_fuel_type,
-                min_year, max_mileage, max_budget, requirements, created_at
+                min_year, max_mileage, max_budget, requirements, source, status, created_at
             )
             SELECT
                 id, customer_name, customer_email, customer_phone,
                 preferred_brand, preferred_model, preferred_fuel_type,
-                min_year, max_mileage, max_budget, requirements, created_at
+                min_year, max_mileage, max_budget, requirements, 
+                COALESCE(source, 'contact'), COALESCE(status, 'active'), created_at
             FROM leads;
         `);
 
     await db.exec("DROP TABLE leads");
     await db.exec("ALTER TABLE leads_new RENAME TO leads");
     await db.exec("COMMIT");
-    console.log(
-      "Leads schema migrated: removed unique email/phone constraints.",
-    );
+    console.log("Leads schema migrated: added source and status columns.");
   } catch (error) {
     await db.exec("ROLLBACK");
     throw error;
   } finally {
     await db.exec("PRAGMA foreign_keys = ON");
+  }
+}
+
+async function migrateCarsTable(db) {
+  const columns = await db.all("PRAGMA table_info('cars')");
+  const columnNames = new Set(columns.map((column) => column.name));
+
+  if (!columnNames.has("variant")) {
+    await db.exec("ALTER TABLE cars ADD COLUMN variant TEXT DEFAULT ''");
+  }
+
+  if (!columnNames.has("color")) {
+    await db.exec("ALTER TABLE cars ADD COLUMN color TEXT DEFAULT ''");
+  }
+
+  if (!columnNames.has("transmission")) {
+    await db.exec("ALTER TABLE cars ADD COLUMN transmission TEXT DEFAULT ''");
   }
 }
 
@@ -123,6 +146,9 @@ async function setupDB() {
                                             dealer_id TEXT NOT NULL,
                                             brand TEXT NOT NULL,
                                             model TEXT NOT NULL,
+                  variant TEXT DEFAULT '',
+                  color TEXT DEFAULT '',
+                                            transmission TEXT DEFAULT '',
                                             year TEXT NOT NULL,
                                             price INTEGER NOT NULL,
                                             mileage INTEGER NOT NULL,
@@ -132,6 +158,8 @@ async function setupDB() {
                                             FOREIGN KEY (dealer_id) REFERENCES dealers(id) ON DELETE CASCADE
             );
     `);
+
+  await migrateCarsTable(db);
 
   // 2.5 Tabell för flera bilder per bil
   await db.exec(`
@@ -150,12 +178,14 @@ async function setupDB() {
                                              customer_email TEXT NOT NULL,
                                              customer_phone TEXT NOT NULL,
                                              preferred_brand TEXT,
-                                             preferred_model TEXT, -- NY
-                                             preferred_fuel_type TEXT, -- NY
-                                             min_year INTEGER, -- NY
-                                             max_mileage INTEGER, -- NY
+                                             preferred_model TEXT,
+                                             preferred_fuel_type TEXT,
+                                             min_year INTEGER,
+                                             max_mileage INTEGER,
                                              max_budget INTEGER,
                                              requirements TEXT,
+                                             source TEXT DEFAULT 'contact',
+                                             status TEXT DEFAULT 'active',
                                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
     `);

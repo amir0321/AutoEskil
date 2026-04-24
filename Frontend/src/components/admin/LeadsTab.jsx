@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import styles from '../../pages/Admin.module.css';
 import DeleteConfirmModal from '../DeleteConfirmModal';
-import { Trash2, ChevronDown, ChevronUp } from 'lucide-react';
-import { adminFetch } from '../../utils/api';
+import { CardLoadingSkeleton } from '../LoadingSkeleton';
+import { Trash2, ChevronDown, ChevronUp, Check } from 'lucide-react';
+import { adminFetch, apiFetch } from '../../utils/api';
 import content from '../../content/siteContent.json';
 
 export default function LeadsTab() {
@@ -10,6 +12,13 @@ export default function LeadsTab() {
     const [loading, setLoading] = useState(true);
     const [expanded, setExpanded] = useState(null);
     const [pendingDelete, setPendingDelete] = useState(null);
+    const [activeTab, setActiveTab] = useState('active'); // 'active' eller 'confirmed'
+    const [actionMessage, setActionMessage] = useState('');
+    const [actionError, setActionError] = useState('');
+
+    const filteredLeads = useMemo(() => {
+        return leads.filter(l => l.status === activeTab);
+    }, [leads, activeTab]);
 
     useEffect(() => {
         let isMounted = true;
@@ -19,7 +28,12 @@ export default function LeadsTab() {
                 const res = await adminFetch('/leads');
                 if (res.ok) {
                     const data = await res.json();
-                    if (isMounted) setLeads(data);
+                    if (isMounted) {
+                        setLeads(data.map((lead) => ({
+                            ...lead,
+                            status: lead.status || 'active'
+                        })));
+                    }
                 }
             } catch (e) {
                 console.error(e);
@@ -36,11 +50,111 @@ export default function LeadsTab() {
         if (res.ok) setLeads(prev => prev.filter(l => l.id !== id));
     };
 
-    if (loading) return <div className={styles.loadingText}>{content.leadsTab.loading}</div>;
-    if (leads.length === 0) return <div className={styles.emptyText}>{content.leadsTab.empty}</div>;
+    const handleConfirmLead = async (id) => {
+        try {
+            setActionError('');
+            setActionMessage('');
+
+            let res = await adminFetch(`/leads/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'confirmed' })
+            });
+
+            if (res.status === 404) {
+                res = await apiFetch(`/api/leads/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: 'confirmed' })
+                });
+            }
+
+            if (res.ok) {
+                setLeads(prev => prev.map(l => l.id === id ? { ...l, status: 'confirmed' } : l));
+                setActionMessage('Lead markerad som bekräftad.');
+                setTimeout(() => setActionMessage(''), 2500);
+            } else {
+                let errorText = 'Kunde inte bekräfta lead.';
+                try {
+                    const data = await res.json();
+                    if (data?.error) errorText = data.error;
+                } catch {
+                    // ignore parse errors
+                }
+                setActionError(errorText);
+            }
+        } catch (e) {
+            console.error(e);
+            setActionError('Nätverksfel vid bekräftelse. Kontrollera backend.');
+        }
+    };
+
+    if (loading) return <CardLoadingSkeleton count={4} />;
+
+    const activeCount = leads.filter(l => l.status === 'active').length;
+    const confirmedCount = leads.filter(l => l.status === 'confirmed').length;
 
     return (
-        <div className={styles.leadsList}>
+        <div>
+            {actionMessage && (
+                <div className={`${styles.alert} ${styles.alertSuccess}`} style={{ marginBottom: '1rem' }}>
+                    {actionMessage}
+                </div>
+            )}
+            {actionError && (
+                <div className={`${styles.alert} ${styles.alertError}`} style={{ marginBottom: '1rem' }}>
+                    {actionError}
+                </div>
+            )}
+
+            {/* Flikar för Aktiva/Bekräftade */}
+            <div style={{
+                display: 'flex',
+                gap: '1rem',
+                marginBottom: '1.5rem',
+                borderBottom: '1px solid var(--card-border)',
+                paddingBottom: '1rem'
+            }}>
+                <button
+                    onClick={() => setActiveTab('active')}
+                    style={{
+                        background: activeTab === 'active' ? 'var(--accent)' : 'transparent',
+                        color: activeTab === 'active' ? 'white' : 'var(--text-muted)',
+                        border: activeTab === 'active' ? 'none' : '1px solid var(--card-border)',
+                        padding: '0.7rem 1.5rem',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        transition: 'all 0.2s',
+                        fontSize: '0.95rem'
+                    }}
+                >
+                    📋 Aktiva ({activeCount})
+                </button>
+                <button
+                    onClick={() => setActiveTab('confirmed')}
+                    style={{
+                        background: activeTab === 'confirmed' ? 'var(--accent)' : 'transparent',
+                        color: activeTab === 'confirmed' ? 'white' : 'var(--text-muted)',
+                        border: activeTab === 'confirmed' ? 'none' : '1px solid var(--card-border)',
+                        padding: '0.7rem 1.5rem',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        transition: 'all 0.2s',
+                        fontSize: '0.95rem'
+                    }}
+                >
+                    ✅ Bekräftade ({confirmedCount})
+                </button>
+            </div>
+
+            {filteredLeads.length === 0 ? (
+                <div className={styles.emptyText}>
+                    {activeTab === 'active' ? 'Inga aktiva leads' : 'Inga bekräftade leads'}
+                </div>
+            ) : (
+                <div className={styles.leadsList}>
             {pendingDelete && (
                 <DeleteConfirmModal
                     title={content.leadsTab.deleteModal.title}
@@ -55,7 +169,7 @@ export default function LeadsTab() {
                     }}
                 />
             )}
-            {leads.map(lead => (
+            {filteredLeads.map(lead => (
                 <div key={lead.id} className={`glass-card ${styles.leadCard}`}>
                     <div className={styles.leadHeader}>
                         <div>
@@ -64,6 +178,28 @@ export default function LeadsTab() {
                         </div>
                         <div className={styles.leadMeta}>
                             <span className={styles.leadDate}>{new Date(lead.created_at).toLocaleDateString('sv-SE')}</span>
+                            {lead.source === 'interested' && (
+                                <span style={{
+                                    background: 'rgba(59, 130, 246, 0.15)',
+                                    color: '#93c5fd',
+                                    border: '1px solid rgba(59, 130, 246, 0.3)',
+                                    padding: '0.15rem 0.6rem',
+                                    borderRadius: '100px',
+                                    fontSize: '0.75rem',
+                                    fontWeight: 600
+                                }}>💎 Intresse-anmälan</span>
+                            )}
+                            {lead.source !== 'interested' && (
+                                <span style={{
+                                    background: 'rgba(168, 85, 247, 0.15)',
+                                    color: '#d8b4fe',
+                                    border: '1px solid rgba(168, 85, 247, 0.3)',
+                                    padding: '0.15rem 0.6rem',
+                                    borderRadius: '100px',
+                                    fontSize: '0.75rem',
+                                    fontWeight: 600
+                                }}>📋 Kontakt-formulär</span>
+                            )}
                             {lead.matches && lead.matches.length > 0 && (
                                 <span className={styles.matchBadge}>{lead.matches.length} {content.leadsTab.matchLabel}</span>
                             )}
@@ -94,14 +230,20 @@ export default function LeadsTab() {
                             {expanded === lead.id && (
                                 <div className={styles.matchGrid}>
                                     {lead.matches.map(car => (
-                                        <div key={car.id} className={styles.matchCarCard}>
-                                            <img src={(car.images && car.images[0]) || content.leadsTab.placeholders.image} alt={car.brand} />
-                                            <div>
-                                                <p className={styles.matchBrand}>{car.brand} {car.model}</p>
-                                                <p className={styles.matchInfo}>{car.year} · {car.fuel_type}</p>
-                                                <p className={styles.matchPrice}>{Number(car.price).toLocaleString('sv-SE')} kr</p>
+                                        <Link
+                                            key={car.id}
+                                            to={`/bilar/${car.id}`}
+                                            className={styles.matchCarCardLink}
+                                        >
+                                            <div className={styles.matchCarCard}>
+                                                <img src={(car.images && car.images[0]) || content.leadsTab.placeholders.image} alt={car.brand} />
+                                                <div>
+                                                    <p className={styles.matchBrand}>{car.brand} {car.model}</p>
+                                                    <p className={styles.matchInfo}>{car.year} · {car.fuel_type}</p>
+                                                    <p className={styles.matchPrice}>{Number(car.price).toLocaleString('sv-SE')} kr</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     ))}
                                 </div>
                             )}
@@ -109,6 +251,16 @@ export default function LeadsTab() {
                     )}
 
                     <div className={styles.leadFooter}>
+                        {activeTab === 'active' && (
+                            <button 
+                                className={styles.confirmBtn}
+                                onClick={() => handleConfirmLead(lead.id)}
+                                title="Markera som bekräftad när kunden köper bilen"
+                            >
+                                <Check size={14} />
+                                <span>Bekräfta</span>
+                            </button>
+                        )}
                         <button className="btn btn-danger" onClick={() => setPendingDelete({ id: lead.id })}>
                             <Trash2 size={14} />
                             <span>{content.leadsTab.buttons.delete}</span>
@@ -116,8 +268,9 @@ export default function LeadsTab() {
                     </div>
                 </div>
             ))}
+            </div>
+            )}
         </div>
     );
 }
-
 

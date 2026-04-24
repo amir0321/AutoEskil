@@ -43,7 +43,7 @@ router.put("/:id", async (req, res) => {
   try {
     const result = await updateDealer(req.db, req.params.id, req.body);
     if (result.success) {
-      res.json({ message: "Handlare uppdaterad." });
+      res.json({ message: "Handlare uppdaterad.", dealer: result.dealer });
     } else {
       res.status(404).json({ error: result.error });
     }
