@@ -7,9 +7,18 @@
   },
   "nav": {
     "links": [
-      { "to": "/", "label": "Hem" },
-      { "to": "/bilar", "label": "Våra Bilar" },
-      { "to": "/om-oss", "label": "Om Oss" }
+      {
+        "to": "/",
+        "label": "Hem"
+      },
+      {
+        "to": "/bilar",
+        "label": "Våra Bilar"
+      },
+      {
+        "to": "/om-oss",
+        "label": "Om Oss"
+      }
     ],
     "admin": "Admin",
     "logout": "Logga ut",
@@ -36,16 +45,31 @@
       {
         "heading": "Navigering",
         "links": [
-          { "to": "/", "label": "Hem" },
-          { "to": "/bilar", "label": "Våra Bilar" },
-          { "to": "/hitta-bil", "label": "Hitta Bil" }
+          {
+            "to": "/",
+            "label": "Hem"
+          },
+          {
+            "to": "/bilar",
+            "label": "Våra Bilar"
+          },
+          {
+            "to": "/hitta-bil",
+            "label": "Hitta Bil"
+          }
         ]
       },
       {
         "heading": "Kontakt",
         "links": [
-          { "href": "tel:016-000 00 00", "label": "016-000 00 00" },
-          { "href": "mailto:info@autoeskil.se", "label": "info@autoeskil.se" }
+          {
+            "href": "tel:016-000 00 00",
+            "label": "016-000 00 00"
+          },
+          {
+            "href": "mailto:info@autoeskil.se",
+            "label": "info@autoeskil.se"
+          }
         ]
       },
       {
@@ -57,17 +81,35 @@
     ],
     "copyrightSuffix": "AutoEskil AB. Alla rättigheter förbehållna.",
     "socialLinks": [
-      { "href": "https://facebook.com" },
-      { "href": "https://instagram.com" },
-      { "href": "https://twitter.com" }
+      {
+        "href": "https://facebook.com"
+      },
+      {
+        "href": "https://instagram.com"
+      },
+      {
+        "href": "https://twitter.com"
+      }
     ]
   },
   "home": {
     "stats": [
-      { "value": "200+", "label": "Nöjda kunder" },
-      { "value": "50+", "label": "Bilar i lager" },
-      { "value": "10 år", "label": "I branschen" },
-      { "value": "100%", "label": "Nöjdhetsgaranti" }
+      {
+        "value": "200+",
+        "label": "Nöjda kunder"
+      },
+      {
+        "value": "50+",
+        "label": "Bilar i lager"
+      },
+      {
+        "value": "10 år",
+        "label": "I branschen"
+      },
+      {
+        "value": "100%",
+        "label": "Nöjdhetsgaranti"
+      }
     ],
     "featuresSection": {
       "eyebrow": "Vad vi erbjuder",
@@ -136,6 +178,8 @@
     "heroSubtitle": "Handplockade fordon med full service och garanti",
     "searchPlaceholder": "Sök märke eller modell...",
     "fuelFilterAll": "Alla drivmedel",
+    "bodyTypeFilterAll": "Alla karosstyper",
+    "colorFilterAll": "Alla färger",
     "sortLabel": "Sortera",
     "sortOptions": {
       "price_asc": "Pris: Lägst först",
@@ -159,9 +203,21 @@
     "heroTitleAccent": "Oss",
     "heroSubtitle": "Fyll i dina önskemål så matchar vi dig med rätt bil. Vi svarar inom 24 timmar.",
     "contactInfo": [
-      { "icon": "📞", "label": "Telefon", "value": "016-000 00 00" },
-      { "icon": "✉️", "label": "E-post", "value": "info@autoeskil.se" },
-      { "icon": "🕐", "label": "Öppettider", "value": "Öppet 24/7" }
+      {
+        "icon": "📞",
+        "label": "Telefon",
+        "value": "016-000 00 00"
+      },
+      {
+        "icon": "✉️",
+        "label": "E-post",
+        "value": "info@autoeskil.se"
+      },
+      {
+        "icon": "🕐",
+        "label": "Öppettider",
+        "value": "Öppet 24/7"
+      }
     ],
     "infoOnly": {
       "title": "Tack för din intresseanmälan!",
@@ -205,7 +261,13 @@
         "maxBudget": "T.ex. 250000",
         "requirements": "T.ex. dragkrok, låg förbrukning, automat..."
       },
-      "fuelOptions": ["Bensin", "Diesel", "El", "Laddhybrid", "Hybrid"],
+      "fuelOptions": [
+        "Bensin",
+        "Diesel",
+        "El",
+        "Laddhybrid",
+        "Hybrid"
+      ],
       "submit": "Skicka intresseanmälan",
       "submitting": "Skickar..."
     },
@@ -240,10 +302,22 @@
     "titleAccent": "Dashboard",
     "subtitle": "Hantera bilar, leads och handlare",
     "tabs": [
-      { "id": "add", "label": "Lägg till bil" },
-      { "id": "cars", "label": "Hantera bilar" },
-      { "id": "leads", "label": "Leads" },
-      { "id": "dealers", "label": "Handlare" }
+      {
+        "id": "add",
+        "label": "Lägg till bil"
+      },
+      {
+        "id": "cars",
+        "label": "Hantera bilar"
+      },
+      {
+        "id": "leads",
+        "label": "Leads"
+      },
+      {
+        "id": "dealers",
+        "label": "Handlare"
+      }
     ]
   },
   "notFound": {
@@ -258,6 +332,7 @@
     "labels": {
       "mileage": "Miltal",
       "year": "Årsmodell",
+      "transmission": "Växellåda",
       "details": "Visa Detaljer"
     }
   },
@@ -266,14 +341,39 @@
     "labels": {
       "brand": "Märke",
       "model": "Modell",
+      "variant": "Kaross",
+      "color": "Färg",
       "year": "Årsmodell",
       "price": "Pris (kr)",
       "mileage": "Miltal (mil)",
+      "transmission": "Växellåda",
       "fuel": "Drivmedel",
       "description": "Beskrivning",
       "images": "Bilder"
     },
-    "fuelOptions": ["Bensin", "Diesel", "El", "Laddhybrid", "Hybrid"],
+    "bodyTypeOptions": [
+      "Sedan",
+      "Kombi",
+      "SUV",
+      "Halvkombi",
+      "Coupé",
+      "Cabriolet",
+      "Pickup",
+      "Minibuss",
+      "Transportbil",
+      "Annat"
+    ],
+    "transmissionOptions": [
+      "Automat",
+      "Manuell"
+    ],
+    "fuelOptions": [
+      "Bensin",
+      "Diesel",
+      "El",
+      "Laddhybrid",
+      "Hybrid"
+    ],
     "actions": {
       "close": "&times;",
       "addImages": "+ Lägg till nya bilder",
@@ -297,17 +397,44 @@
     "labels": {
       "brand": "Märke",
       "model": "Modell",
+      "variant": "Kaross",
+      "color": "Färg",
       "year": "Årsmodell",
       "price": "Pris (kr)",
       "mileage": "Miltal (mil)",
+      "transmission": "Växellåda",
       "fuel": "Drivmedel",
       "description": "Beskrivning",
       "images": "Bilder"
     },
-    "fuelOptions": ["Bensin", "Diesel", "El", "Laddhybrid", "Hybrid"],
+    "bodyTypeOptions": [
+      "Sedan",
+      "Kombi",
+      "SUV",
+      "Halvkombi",
+      "Coupé",
+      "Cabriolet",
+      "Pickup",
+      "Minibuss",
+      "Transportbil",
+      "Annat"
+    ],
+    "transmissionOptions": [
+      "Automat",
+      "Manuell"
+    ],
+    "fuelOptions": [
+      "Bensin",
+      "Diesel",
+      "El",
+      "Laddhybrid",
+      "Hybrid"
+    ],
     "placeholders": {
       "brand": "T.ex. Volvo",
       "model": "T.ex. XC90",
+      "variant": "Välj kaross",
+      "color": "T.ex. Svart",
       "year": "2022",
       "price": "599 000",
       "mileage": "4500",
@@ -329,7 +456,15 @@
     "empty": "Inga bilar i lager.",
     "title": "Hantera bilar",
     "countSuffix": "bilar i lager",
-    "tableHeaders": ["Bild", "Märke & Modell", "År", "Miltal", "Drivmedel", "Pris", "Åtgärd"],
+    "tableHeaders": [
+      "Bild",
+      "Märke & Modell",
+      "År",
+      "Miltal",
+      "Drivmedel",
+      "Pris",
+      "Åtgärd"
+    ],
     "buttons": {
       "edit": "Redigera",
       "delete": "Ta bort"

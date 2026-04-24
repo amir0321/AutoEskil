@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import styles from './Login.module.css';
-import { apiFetch } from '../utils/api';
+import { apiFetch, invalidateAdminSessionCache } from '../utils/api';
 import content from '../content/siteContent.json';
 
 export const route = {
@@ -31,6 +31,7 @@ export default function Login() {
             const data = await response.json();
 
             if (response.ok) {
+                invalidateAdminSessionCache();
                 navigate('/admin');
             } else {
                 setError(data.message || content.login.messages.failed);

@@ -191,7 +191,7 @@
 }
 
 .table tr:hover td {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(14, 165, 233, 0.06);
 }
 
 .thumbImg {
@@ -200,6 +200,13 @@
     object-fit: cover;
     border-radius: 10px;
     display: block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.thumbLink:hover .thumbImg {
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
 }
 
 .carName {
@@ -344,14 +351,19 @@
     font-size: 0.85rem;
     font-weight: 500;
     padding: 0.25rem 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, color 0.2s;
     display: flex;
     align-items: center;
     gap: 0.4rem;
 }
 
 .expandBtn:hover {
-    opacity: 0.75;
+    opacity: 0.85;
+    color: #0ea5e9;
+}
+
+.expandBtn:active {
+    opacity: 0.7;
 }
 
 .matchGrid {
@@ -378,6 +390,21 @@
     border-radius: 6px;
 }
 
+.matchCarCardLink {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    display: block;
+    cursor: pointer;
+}
+
+.matchCarCardLink:hover .matchCarCard {
+    background: rgba(14, 165, 233, 0.12);
+    border-color: rgba(14, 165, 233, 0.4);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    transform: translateY(-2px);
+}
+
 .matchBrand {
     font-weight: 600;
     font-size: 0.9rem;
@@ -400,6 +427,33 @@
     border-top: 1px solid var(--card-border);
     padding-top: 0.75rem;
     margin-top: 0.25rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.confirmBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.confirmBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.confirmBtn:active {
+    transform: translateY(0);
 }
 
 /* ─── Dealers ─── */
@@ -427,6 +481,11 @@
     flex-direction: column;
     padding: 1.5rem;
     border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.dealerCard:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .dealerHeader {
@@ -457,6 +516,185 @@
     color: var(--accent);
     margin-top: 0.25rem;
     font-weight: 500;
+}
+
+/* ─── Loading Skeleton ─── */
+.skeletonHeader,
+.skeletonCell {
+    padding: 1rem 1.25rem;
+}
+
+.skeletonLine {
+    height: 16px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: loading 2s infinite;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.skeletonImage {
+    width: 116px;
+    height: 72px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: loading 2s infinite;
+    border-radius: 10px;
+}
+
+.skeletonCard {
+    padding: 1.5rem;
+    height: 120px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ─── Form Validation ─── */
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroupError .form-control {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.formGroupError label {
+    color: #fca5a5;
+}
+
+.errorMessage {
+    color: #fca5a5;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.helpText {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+/* ─── Filter/Search ─── */
+.filterBar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filterInput {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filterInput input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: var(--bg-2);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.filterInput input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.filterInput input::placeholder {
+    color: var(--text-muted);
+}
+
+.clearButton {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.clearButton:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(14, 165, 233, 0.08);
+}
+
+/* ─── Inline Edit ─── */
+.dealerEditMode {
+    background: rgba(14, 165, 233, 0.06);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+}
+
+.editActions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--card-border);
+}
+
+.editActions button {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.editSaveBtn {
+    background: rgba(34, 197, 94, 0.2);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    flex: 1;
+    cursor: pointer;
+}
+
+.editSaveBtn:hover:not(:disabled) {
+    background: rgba(34, 197, 94, 0.3);
+    border-color: rgba(34, 197, 94, 0.5);
+}
+
+.editCancelBtn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--card-border);
+    flex: 1;
+    cursor: pointer;
+}
+
+.editCancelBtn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-muted);
 }
 
 @media (max-width: 768px) {

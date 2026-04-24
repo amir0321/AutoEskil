@@ -2,7 +2,11 @@ import express from "express";
 import carsRouter from "./cars.js";
 import dealersRouter from "./dealers.js";
 import { protect, requireRole } from "../middleware/auth.js";
-import { getAllLeads, deleteLead } from "../controllers/leadsController.js";
+import {
+  getAllLeads,
+  deleteLead,
+  updateLeadStatus,
+} from "../controllers/leadsController.js";
 
 const router = express.Router();
 const INTERNAL_ERROR_MESSAGE = "Internal server error";
@@ -43,6 +47,26 @@ router.delete("/leads/:id", async (req, res) => {
     }
   } catch (error) {
     console.error("Error deleting lead:", error);
+    res.status(500).json({ error: INTERNAL_ERROR_MESSAGE });
+  }
+});
+
+router.put("/leads/:id", async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ error: "Status är obligatorisk" });
+    }
+
+    const result = await updateLeadStatus(req.db, req.params.id, status);
+    if (result.success) {
+      res.json({ message: "Lead status uppdaterad" });
+    } else {
+      res.status(400).json({ error: result.error });
+    }
+  } catch (error) {
+    console.error("Error updating lead status:", error);
     res.status(500).json({ error: INTERNAL_ERROR_MESSAGE });
   }
 });

@@ -197,6 +197,20 @@
     margin-bottom: 1.5rem;
 }
 
+.matchActions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: -0.4rem;
+    margin-bottom: 0.7rem;
+}
+
+.matchToggleBtn {
+    border-radius: 999px;
+    min-width: 170px;
+    cursor: pointer;
+}
+
 /* Footer */
 .footer {
     text-align: center;

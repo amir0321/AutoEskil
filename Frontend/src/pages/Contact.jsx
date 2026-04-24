@@ -8,10 +8,13 @@ export const route = {
     path: "/hitta-bil"
 };
 
+const INITIAL_MATCHES_VISIBLE = 3;
+
 const initialForm = {
     customer_name: '',
     customer_email: '',
     customer_phone: '',
+    website: '',
     preferred_brand: '',
     preferred_model: '',
     preferred_fuel_type: '',
@@ -23,10 +26,12 @@ const initialForm = {
 
 export default function Contact() {
     const [form, setForm] = useState(initialForm);
+    const [formStartedAt] = useState(() => Date.now());
     const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [matches, setMatches] = useState([]);
+    const [showAllMatches, setShowAllMatches] = useState(false);
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -40,6 +45,9 @@ export default function Contact() {
             customer_name: form.customer_name,
             customer_email: form.customer_email,
             customer_phone: form.customer_phone,
+            website: form.website,
+            form_started_at: formStartedAt,
+            source: 'contact'
         };
         if (form.preferred_brand) payload.preferred_brand = form.preferred_brand;
         if (form.preferred_model) payload.preferred_model = form.preferred_model;
@@ -60,6 +68,7 @@ export default function Contact() {
 
             if (res.ok || res.status === 201) {
                 setMatches(data.matches || []);
+                setShowAllMatches(false);
                 setSent(true);
             } else {
                 setError(data.error || 'Något gick fel. Försök igen.');
@@ -75,6 +84,7 @@ export default function Contact() {
         Boolean(form.customer_name.trim()) &&
         Boolean(form.customer_email.trim()) &&
         Boolean(form.customer_phone.trim()) &&
+        !form.website.trim() &&
         !form.preferred_brand.trim() &&
         !form.preferred_model.trim() &&
         !form.preferred_fuel_type.trim() &&
@@ -82,6 +92,12 @@ export default function Contact() {
         !form.max_mileage &&
         !form.max_budget &&
         !form.requirements.trim();
+
+    const visibleMatches = showAllMatches
+        ? matches
+        : matches.slice(0, INITIAL_MATCHES_VISIBLE);
+
+    const hiddenMatchesCount = Math.max(matches.length - visibleMatches.length, 0);
     
     return (
         <div className={styles.page}>
@@ -118,7 +134,7 @@ export default function Contact() {
                                         <p className={styles.successSub}>{content.contact.infoOnly.message}</p>
                                         <button
                                             className={`btn-primary ${styles.resetBtn}`}
-                                            onClick={() => { setSent(false); setForm(initialForm); setMatches([]); }}
+                                            onClick={() => { setSent(false); setForm(initialForm); setMatches([]); setShowAllMatches(false); }}
                                         >
                                             {content.contact.success.reset}
                                         </button>
@@ -137,16 +153,40 @@ export default function Contact() {
 
                                         {/* Ny visuell lista för matchade bilar */}
                                         {matches.length > 0 && (
-                                            <div className={styles.matchGrid}>
-                                                {matches.map(car => (
-                                                    <CarCard key={car.id} car={car} />
-                                                ))}
-                                            </div>
+                                            <>
+                                                <div className={styles.matchGrid}>
+                                                    {visibleMatches.map(car => (
+                                                        <CarCard key={car.id} car={car} />
+                                                    ))}
+                                                </div>
+
+                                                {matches.length > INITIAL_MATCHES_VISIBLE && (
+                                                    <div className={styles.matchActions}>
+                                                        {!showAllMatches ? (
+                                                            <button
+                                                                type="button"
+                                                                className={`btn-secondary ${styles.matchToggleBtn}`}
+                                                                onClick={() => setShowAllMatches(true)}
+                                                            >
+                                                                Visa fler ({hiddenMatchesCount} till)
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                type="button"
+                                                                className={`btn-secondary ${styles.matchToggleBtn}`}
+                                                                onClick={() => setShowAllMatches(false)}
+                                                            >
+                                                                Visa färre
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </>
                                         )}
 
                                         <button
                                             className={`btn-primary ${styles.resetBtn}`}
-                                            onClick={() => { setSent(false); setForm(initialForm); setMatches([]); }}
+                                            onClick={() => { setSent(false); setForm(initialForm); setMatches([]); setShowAllMatches(false); }}
                                         >
                                             {content.contact.success.reset}
                                         </button>
@@ -160,6 +200,19 @@ export default function Contact() {
                                 {error && <div className={styles.errorBanner}>{error}</div>}
 
                                 <p className={styles.formSection}>{content.contact.form.sections.contact}</p>
+
+                                <div style={{ position: 'absolute', left: '-9999px', opacity: 0 }} aria-hidden="true">
+                                    <label htmlFor="website">Lämna detta fält tomt</label>
+                                    <input
+                                        type="text"
+                                        id="website"
+                                        name="website"
+                                        value={form.website}
+                                        onChange={handleChange}
+                                        autoComplete="off"
+                                        tabIndex="-1"
+                                    />
+                                </div>
 
                                 <div className="form-group">
                                     <label>{content.contact.form.labels.name}</label>
