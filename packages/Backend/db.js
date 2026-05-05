@@ -375,7 +375,8 @@ function createDBWrapper(pool) {
 
     // run(sql, params) - kör utan att returnera
     run: async (sql, params = []) => {
-      await pool.query(convertSQLToPostgres(sql), params);
+      const result = await pool.query(convertSQLToPostgres(sql), params);
+      return { changes: result.rowCount };
     },
 
     // exec(sql) - kör raw SQL

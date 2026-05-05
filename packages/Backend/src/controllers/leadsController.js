@@ -87,21 +87,21 @@ export async function findMatchingCars(db, leadData) {
   let query = `
     SELECT id,
            (
-             (CASE WHEN ? IS NULL OR TRIM(LOWER(brand)) LIKE TRIM(LOWER(?)) THEN 2 ELSE 0 END) +
-             (CASE WHEN ? IS NULL OR TRIM(LOWER(model)) = TRIM(LOWER(?)) THEN 2 ELSE 0 END) +
-             (CASE WHEN ? IS NULL OR TRIM(LOWER(fuel_type)) = TRIM(LOWER(?)) THEN 2 ELSE 0 END) +
-             (CASE WHEN ? IS NULL OR year >= ? THEN 1 ELSE 0 END) +
-             (CASE WHEN ? IS NULL OR mileage <= ? THEN 1 ELSE 0 END) +
-             (CASE WHEN ? IS NULL OR price <= ? THEN 1 ELSE 0 END)
+             (CASE WHEN CAST(? AS TEXT) IS NULL OR TRIM(LOWER(brand)) LIKE TRIM(LOWER(?)) THEN 2 ELSE 0 END) +
+             (CASE WHEN CAST(? AS TEXT) IS NULL OR TRIM(LOWER(model)) = TRIM(LOWER(?)) THEN 2 ELSE 0 END) +
+             (CASE WHEN CAST(? AS TEXT) IS NULL OR TRIM(LOWER(fuel_type)) = TRIM(LOWER(?)) THEN 2 ELSE 0 END) +
+             (CASE WHEN CAST(? AS TEXT) IS NULL OR year >= ? THEN 1 ELSE 0 END) +
+             (CASE WHEN CAST(? AS TEXT) IS NULL OR mileage <= ? THEN 1 ELSE 0 END) +
+             (CASE WHEN CAST(? AS TEXT) IS NULL OR price <= ? THEN 1 ELSE 0 END)
              ) as match_score
     FROM cars
     WHERE
-      (price <= ? OR ? IS NULL) AND
-      (year >= ? OR ? IS NULL) AND
-      (mileage <= ? OR ? IS NULL) AND
-      (TRIM(LOWER(brand)) LIKE TRIM(LOWER(?)) OR ? IS NULL) AND
-      (TRIM(LOWER(model)) = TRIM(LOWER(?)) OR ? IS NULL) AND
-      (TRIM(LOWER(fuel_type)) = TRIM(LOWER(?)) OR ? IS NULL)
+      (price <= ? OR CAST(? AS TEXT) IS NULL) AND
+      (year >= ? OR CAST(? AS TEXT) IS NULL) AND
+      (mileage <= ? OR CAST(? AS TEXT) IS NULL) AND
+      (TRIM(LOWER(brand)) LIKE TRIM(LOWER(?)) OR CAST(? AS TEXT) IS NULL) AND
+      (TRIM(LOWER(model)) = TRIM(LOWER(?)) OR CAST(? AS TEXT) IS NULL) AND
+      (TRIM(LOWER(fuel_type)) = TRIM(LOWER(?)) OR CAST(? AS TEXT) IS NULL)
     ORDER BY match_score DESC
       LIMIT 10;
   `;

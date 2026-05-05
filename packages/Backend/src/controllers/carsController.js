@@ -176,8 +176,12 @@ async function updateCar(db, carId, carData) {
     ];
     for (const key of numericFields) {
       if (fieldsToUpdate[key] !== undefined) {
-        fieldsToUpdate[key] =
-          fieldsToUpdate[key] === "" ? null : Number(fieldsToUpdate[key]);
+        if (fieldsToUpdate[key] === "" || fieldsToUpdate[key] === null) {
+          fieldsToUpdate[key] = null;
+        } else {
+          const num = Number(fieldsToUpdate[key]);
+          fieldsToUpdate[key] = Number.isNaN(num) ? null : num;
+        }
       }
     }
     if (fieldsToUpdate.engine_volume !== undefined) {
