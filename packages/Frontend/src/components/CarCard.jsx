@@ -1,0 +1,75 @@
+import { Link } from 'react-router-dom';
+import styles from './CarCard.module.css';
+import content from '../content/siteContent.json';
+
+export default function CarCard({ car }) {
+    const primaryImage = (car.images && car.images.length > 0)
+        ? car.images[0]
+        : content.carCard.placeholders.image;
+    const formattedPrice = `${Number(car.price).toLocaleString('sv-SE')} kr`;
+    const formattedMileage = `${Number(car.mileage).toLocaleString('sv-SE')} mil`;
+    const carRouteId = car.listing_id || car.id;
+    const listingId = car.listing_id || car.id;
+
+    return (
+        <Link to={`/bilar/${carRouteId}`} className={styles.card}>
+            <div className={styles.imageWrapper}>
+                <img
+                    src={primaryImage}
+                    alt={`${car.brand} ${car.model}`}
+                    className={styles.image}
+                    loading="lazy"
+                />
+                <div className={styles.imageOverlay} />
+
+                <div className={styles.imageBadgesTop}>
+                    {car.fuel_type && <span className={styles.fuelBadge}>{car.fuel_type}</span>}
+                </div>
+
+                <div className={styles.imageBadgesBottom}>
+                    <span className={styles.yearBadge}>{car.year}</span>
+                    {car.variant && <span className={styles.glassBadge}>{car.variant}</span>}
+                    {car.color && <span className={styles.glassBadge}>{car.color}</span>}
+                </div>
+            </div>
+
+            <div className={styles.body}>
+                {/* Uppdaterad layout för topRow */}
+                <div className={styles.topRow}>
+                    <div className={styles.titleWrap}>
+                        <h3 className={styles.brand}>{car.brand}</h3>
+                        <p className={styles.model}>{car.model}</p>
+                    </div>
+                    <div className={styles.priceWrap}>
+                        <p className={styles.price}>{formattedPrice}</p>
+                        <p className={styles.listingId}>ID: {listingId}</p>
+                    </div>
+                </div>
+
+                <div className={styles.specsGrid}>
+                    <div className={styles.specCard}>
+                        <span className={styles.specLabel}>{content.carCard.labels.mileage}</span>
+                        <span className={styles.specValue}>{formattedMileage}</span>
+                    </div>
+
+                    <div className={styles.specCard}>
+                        <span className={styles.specLabel}>{content.carCard.labels.year}</span>
+                        <span className={styles.specValue}>{car.year}</span>
+                    </div>
+
+                    <div className={styles.specCard}>
+                        <span className={styles.specLabel}>{content.carCard.labels.transmission}</span>
+                        <span className={styles.specValue}>{car.transmission || 'Ej angiven'}</span>
+                    </div>
+                </div>
+
+                <div className={styles.footer}>
+                    <span className={`btn-primary ${styles.ctaBtn}`}>
+                        {content.carCard.labels.details}
+                        <span className={styles.ctaArrow} aria-hidden="true">→</span>
+                    </span>
+                </div>
+            </div>
+        </Link>
+    );
+}

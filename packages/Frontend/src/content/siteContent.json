@@ -1,0 +1,584 @@
+{
+  "brand": {
+    "name": "AutoEskil",
+    "shortName": "AUTOESKIL",
+    "company": "AutoEskil AB",
+    "location": "Eskilstuna"
+  },
+  "nav": {
+    "links": [
+      {
+        "to": "/",
+        "label": "Hem"
+      },
+      {
+        "to": "/bilar",
+        "label": "Våra Bilar"
+      },
+      {
+        "to": "/sell-car",
+        "label": "Sälj Bil"
+      },
+      {
+        "to": "https://www.snapbil.se",
+        "label": "Transportera bil"
+      },
+      {
+        "to": "/om-oss",
+        "label": "Om Oss"
+      }
+    ],
+    "admin": "Admin",
+    "logout": "Logga ut",
+    "cta": "Hitta Bil",
+    "mobileCta": "Kontakta Oss",
+    "ariaMenu": "Öppna meny"
+  },
+  "hero": {
+    "badge": "Bilförmedling i Eskilstuna",
+    "titleLead": "Din nästa bil,",
+    "titleAccent": "matchad på sekunder.",
+    "subtitle": "Vi förmedlar exklusiva bilar med full transparens. Berätta vad du söker – vi hittar rätt fordon åt dig.",
+    "primaryCta": "Hitta min bil",
+    "secondaryCta": "Se i lager",
+    "trustItems": [
+      "Kontrollerade fordon",
+      "Svar inom 24h",
+      "Fri rådgivning"
+    ]
+  },
+  "footer": {
+    "tagline": "Din partner för bilaffärer i Eskilstuna. Vi förmedlar kvalitet och skapar förtroende.",
+    "columns": [
+      {
+        "heading": "Navigering",
+        "links": [
+          {
+            "to": "/",
+            "label": "Hem"
+          },
+          {
+            "to": "/bilar",
+            "label": "Våra Bilar"
+          },
+          {
+            "to": "kontakt",
+            "label": "Hitta Bil"
+          }
+        ]
+      },
+      {
+        "heading": "Kontakt",
+        "links": [
+          {
+            "href": "tel:016-000 00 00",
+            "label": "016-000 00 00"
+          },
+          {
+            "href": "mailto:info@autoeskil.se",
+            "label": "info@autoeskil.se"
+          }
+        ]
+      },
+      {
+        "heading": "Öppettider",
+        "text": [
+          "Öppet dygnet runt"
+        ]
+      }
+    ],
+    "copyrightSuffix": "AutoEskil AB. Alla rättigheter förbehållna.",
+    "socialLinks": [
+      {
+        "href": "https://facebook.com"
+      },
+      {
+        "href": "https://instagram.com"
+      },
+      {
+        "href": "https://twitter.com"
+      }
+    ]
+  },
+  "home": {
+    "stats": [
+      {
+        "value": "200+",
+        "label": "Nöjda kunder"
+      },
+      {
+        "value": "50+",
+        "label": "Bilar i lager"
+      },
+      {
+        "value": "10 år",
+        "label": "I branschen"
+      },
+      {
+        "value": "100%",
+        "label": "Nöjdhetsgaranti"
+      }
+    ],
+    "featuresSection": {
+      "eyebrow": "Vad vi erbjuder",
+      "title": "En bilaffär på dina villkor",
+      "subtitle": "Från lager till leverans – vi gör hela processen enkel, transparent och trygg."
+    },
+    "features": [
+      {
+        "to": "/bilar",
+        "tag": "Lager",
+        "title": "Våra Bilar",
+        "text": "Bläddra bland vårt handplockade sortiment av kvalitetsbilar. Varje fordon är noggrant kontrollerat.",
+        "cta": "Se alla bilar"
+      },
+      {
+        "to": "/hitta-bil",
+        "tag": "Matchning",
+        "title": "Hitta Bil",
+        "text": "Berätta vad du söker – märke, budget, drivmedel – och vi matchar dig med rätt fordon direkt.",
+        "cta": "Lämna intresseanmälan"
+      },
+      {
+        "to": "/bilar",
+        "tag": "Garanti",
+        "title": "Trygg Affär",
+        "text": "Vi förmedlar med full transparens. Kontrollerade fordon, äkta priser och personlig service.",
+        "cta": "Läs mer"
+      },
+      {
+        "to": "/sälj-bil",
+        "tag": "Sälj",
+        "title": "Sälj Din Bil",
+        "text": "Vill du sälja? Fyll i ett enkelt formulär så granskar vi din bil och återkommer med ett erbjudande.",
+        "cta": "Lämna säljförfrågan"
+      },
+      {
+        "to": "https://www.snapbil.se",
+        "tag": "Transport",
+        "title": "Transportera Bil",
+        "text": "Behöver du flytta din bil? Via vår partner Snapbil bokar du enkel och säker biltransport.",
+        "cta": "Boka transport",
+        "isExternal": true
+      }
+    ],
+    "ctaBanner": {
+      "title": "Redo att hitta din nästa bil?",
+      "subtitle": "Lämna en intresseanmälan och vi återkommer inom 24 timmar med passande alternativ.",
+      "primaryCta": "Hitta min bil",
+      "primaryCtaTo": "/hitta-bil",
+      "secondaryCta": "Se lagret",
+      "secondaryCtaTo": "/bilar",
+      "tertiaryCtaLabel": "Sälj din bil →",
+      "tertiaryCtaTo": "/sälj-bil"
+    }
+  },
+  "about": {
+    "heroTitle": "Vår historia",
+    "heroSubtitle": "Upptäck resan bakom AutoEskil och vår passion för bilar.",
+    "aboutTitle": "Om AutoEskil",
+    "aboutParagraphs": [
+      "Välkommen till AutoEskil, din personliga bilförmedlare i hjärtat av Sörmland. Grundat 2014 med en passion för bilar och en vision om att göra bilaffären enklare, tryggare och mer personlig.",
+      "Vi är inte en traditionell bilhandlare. Vi ser oss som din partner i bilägandet. Vår specialitet är att matcha rätt bil med rätt köpare. Genom vårt breda nätverk av handlare och privatpersoner kan vi hitta det fordon du söker, även om det inte finns i vårt nuvarande lager."
+    ],
+    "philosophyTitle": "Vår Filosofi",
+    "philosophyCards": [
+      {
+        "title": "Transparens",
+        "text": "Varje bil vi förmedlar har en tydlig historik. Vi döljer ingenting."
+      },
+      {
+        "title": "Kvalitet",
+        "text": "Vi handplockar fordon och ser till att de är noggrant kontrollerade och servade."
+      },
+      {
+        "title": "Personlig Service",
+        "text": "Hos oss är du inte en i mängden. Vi lyssnar på dina behov och ger skräddarsydda råd."
+      }
+    ],
+    "trust": [
+      { "icon": "🏆", "stat": "200+", "label": "Nöjda kunder" },
+      { "icon": "⚡", "stat": "24h",  "label": "Svar garanterat" },
+      { "icon": "📅", "stat": "2014", "label": "Grundat" }
+    ],
+    "ctaTitle": "Redo för din nästa bilaffär?",
+    "ctaSubtitle": "Vi hjälper dig oavsett om du vill köpa eller sälja. Kontakta oss idag – svar inom 24 timmar.",
+    "ctaPrimaryLabel": "Hitta min bil",
+    "ctaPrimaryTo": "/hitta-bil",
+    "ctaSecondaryLabel": "Sälj din bil",
+    "ctaSecondaryTo": "/sälj-bil"
+  },
+  "cars": {
+    "heroTitleLead": "Våra",
+    "heroTitleAccent": "Bilar",
+    "heroSubtitle": "Handplockade fordon med full service och garanti",
+    "searchPlaceholder": "Sök märke eller modell...",
+    "fuelFilterAll": "Alla drivmedel",
+    "bodyTypeFilterAll": "Alla karosstyper",
+    "colorFilterAll": "Alla färger",
+    "sortLabel": "Sortera",
+    "sortOptions": {
+      "price_asc": "Pris: Lägst först",
+      "price_desc": "Pris: Högst först",
+      "year_desc": "Nyaste årsmodell",
+      "mileage_asc": "Lägst miltal"
+    },
+    "clearFilters": "✕ Rensa filter",
+    "loading": "Laddar bilar...",
+    "empty": {
+      "noCarsTitle": "Inga bilar i lager just nu",
+      "noCarsText": "Vi fyller på snart! Kom tillbaka senare eller kontakta oss.",
+      "noResultsTitle": "Inga bilar matchar din sökning",
+      "noResultsText": "Försök med ett annat märke eller ta bort filtret."
+    },
+    "resultSuffixSingular": "bil",
+    "resultSuffixPlural": "bilar"
+  },
+  "contact": {
+    "heroTitleLead": "Kontakta",
+    "heroTitleAccent": "Oss",
+    "heroSubtitle": "Fyll i dina önskemål så matchar vi dig med rätt bil. Vi svarar inom 24 timmar.",
+    "contactInfo": [
+      {
+        "icon": "📞",
+        "label": "Telefon",
+        "value": "016-000 00 00"
+      },
+      {
+        "icon": "✉️",
+        "label": "E-post",
+        "value": "info@autoeskil.se"
+      },
+      {
+        "icon": "🕐",
+        "label": "Öppettider",
+        "value": "Öppet dygnet runt"
+      }
+    ],
+    "infoOnly": {
+      "title": "Tack för din intresseanmälan!",
+      "message": "Vi har sparat din förfrågan och kontaktar dig så fort som möjligt."
+    },
+    "success": {
+      "title": "Tack för din intresseanmälan!",
+      "matchesOne": "Vi hittade 1 bil som matchar dina önskemål! Vi kontaktar dig snart.",
+      "matchesMany": "Vi hittade {count} bilar som matchar dina önskemål! Vi kontaktar dig snart.",
+      "noMatches": "Vi har sparat din förfrågan och återkommer så fort vi har något passande.",
+      "reset": "Skicka ny förfrågan"
+    },
+    "form": {
+      "title": "Intresseanmälan",
+      "sections": {
+        "contact": "Kontaktuppgifter",
+        "wishes": "Dina bilönskemål"
+      },
+      "optional": "(frivilligt)",
+      "labels": {
+        "name": "Ditt namn *",
+        "email": "E-post *",
+        "phone": "Telefon *",
+        "brand": "Märke",
+        "model": "Modell",
+        "fuel": "Drivmedel",
+        "minYear": "Minsta årsmodell",
+        "maxMileage": "Max miltal (mil)",
+        "maxBudget": "Maxbudget (kr)",
+        "requirements": "Övriga önskemål"
+      },
+      "placeholders": {
+        "name": "Namn",
+        "email": "E-post",
+        "phone": "Telefon",
+        "brand": "T.ex. Volvo",
+        "model": "T.ex. XC60",
+        "fuelEmpty": "Spelar ingen roll",
+        "minYear": "T.ex. 2018",
+        "maxMileage": "T.ex. 10000",
+        "maxBudget": "T.ex. 250000",
+        "requirements": "T.ex. dragkrok, låg förbrukning, automat..."
+      },
+      "fuelOptions": [
+        "Bensin",
+        "Diesel",
+        "El",
+        "Laddhybrid",
+        "Hybrid"
+      ],
+      "submit": "Skicka intresseanmälan",
+      "submitting": "Skickar..."
+    },
+    "messages": {
+      "genericError": "Något gick fel. Försök igen.",
+      "connectionError": "Kunde inte ansluta till servern. Kontrollera din anslutning."
+    }
+  },
+  "login": {
+    "title": "Välkommen tillbaka",
+    "subtitle": "Logga in till AutoEskil Admin",
+    "labels": {
+      "username": "Användarnamn",
+      "password": "Lösenord"
+    },
+    "placeholders": {
+      "username": "admin",
+      "password": "••••••••"
+    },
+    "button": {
+      "login": "Logga in",
+      "loading": "Loggar in..."
+    },
+    "messages": {
+      "failed": "Inloggningen misslyckades.",
+      "connection": "Något gick fel vid anslutning till servern."
+    }
+  },
+  "admin": {
+    "checkingSession": "Verifierar session...",
+    "titleLead": "Admin",
+    "titleAccent": "Dashboard",
+    "subtitle": "Hantera bilar, leads och handlare",
+    "tabs": [
+      {
+        "id": "add",
+        "label": "Lägg till bil"
+      },
+      {
+        "id": "cars",
+        "label": "Hantera bilar"
+      },
+      {
+        "id": "leads",
+        "label": "Leads"
+      },
+      {
+        "id": "dealers",
+        "label": "Handlare"
+      },
+      {
+        "id": "sell",
+        "label": "Saljforfragningar"
+      }
+    ]
+  },
+  "notFound": {
+    "title": "Sidan hittades inte",
+    "subtitle": "Sidan du letar efter finns inte eller har flyttats.",
+    "button": "← Tillbaka till startsidan"
+  },
+  "carCard": {
+    "placeholders": {
+      "image": "https://placehold.co/600x400?text=Ingen+bild"
+    },
+    "labels": {
+      "mileage": "Miltal",
+      "year": "Årsmodell",
+      "transmission": "Växellåda",
+      "details": "Visa Detaljer"
+    }
+  },
+  "editCarModal": {
+    "title": "Redigera Bil",
+    "labels": {
+      "brand": "Märke",
+      "model": "Modell",
+      "variant": "Kaross",
+      "color": "Färg",
+      "year": "Årsmodell",
+      "price": "Pris (kr)",
+      "mileage": "Miltal (mil)",
+      "transmission": "Växellåda",
+      "fuel": "Drivmedel",
+      "description": "Beskrivning",
+      "images": "Bilder"
+    },
+    "bodyTypeOptions": [
+      "Sedan",
+      "Kombi",
+      "SUV",
+      "Halvkombi",
+      "Coupé",
+      "Cabriolet",
+      "Pickup",
+      "Minibuss",
+      "Transportbil",
+      "Annat"
+    ],
+    "transmissionOptions": [
+      "Automat",
+      "Manuell"
+    ],
+    "fuelOptions": [
+      "Bensin",
+      "Diesel",
+      "El",
+      "Laddhybrid",
+      "Hybrid"
+    ],
+    "actions": {
+      "close": "&times;",
+      "addImages": "+ Lägg till nya bilder",
+      "cancel": "Avbryt",
+      "save": "Spara ändringar",
+      "saving": "Sparar...",
+      "newImage": "Ny bild"
+    },
+    "messages": {
+      "updated": "Bilen har uppdaterats!",
+      "failed": "Kunde inte uppdatera bilen.",
+      "network": "Nätverksfel. Kontrollera anslutningen.",
+      "newPreview": "Ny bild preview"
+    }
+  },
+  "addCarTab": {
+    "dealer": {
+      "label": "Välj Handlare",
+      "empty": "Inga handlare – lägg till en handlare först"
+    },
+    "labels": {
+      "brand": "Märke",
+      "model": "Modell",
+      "variant": "Kaross",
+      "color": "Färg",
+      "year": "Årsmodell",
+      "price": "Pris (kr)",
+      "mileage": "Miltal (mil)",
+      "transmission": "Växellåda",
+      "fuel": "Drivmedel",
+      "description": "Beskrivning",
+      "images": "Bilder"
+    },
+    "bodyTypeOptions": [
+      "Sedan",
+      "Kombi",
+      "SUV",
+      "Halvkombi",
+      "Coupé",
+      "Cabriolet",
+      "Pickup",
+      "Minibuss",
+      "Transportbil",
+      "Annat"
+    ],
+    "transmissionOptions": [
+      "Automat",
+      "Manuell"
+    ],
+    "fuelOptions": [
+      "Bensin",
+      "Diesel",
+      "El",
+      "Laddhybrid",
+      "Hybrid"
+    ],
+    "placeholders": {
+      "brand": "T.ex. Volvo",
+      "model": "T.ex. XC90",
+      "variant": "Välj kaross",
+      "color": "T.ex. Svart",
+      "year": "2022",
+      "price": "599 000",
+      "mileage": "4500",
+      "description": "Beskriv bilens skick och utrustning..."
+    },
+    "uploadHint": "Klicka eller dra bilder hit · Max 10",
+    "buttons": {
+      "loading": "Laddar upp...",
+      "submit": "Lägg till bil"
+    },
+    "messages": {
+      "success": "Bilen har lagts till!",
+      "failed": "Kunde inte skapa bilen.",
+      "network": "Nätverksfel. Kontrollera att backend körs."
+    }
+  },
+  "manageCarsTab": {
+    "loading": "Laddar bilar...",
+    "empty": "Inga bilar i lager.",
+    "title": "Hantera bilar",
+    "countSuffix": "bilar i lager",
+    "tableHeaders": [
+      "Bild",
+      "Märke & Modell",
+      "År",
+      "Miltal",
+      "Drivmedel",
+      "Pris",
+      "Åtgärd"
+    ],
+    "buttons": {
+      "edit": "Redigera",
+      "delete": "Ta bort"
+    },
+    "deleteModal": {
+      "title": "Ta bort {name}?",
+      "message": "Den här bilen kommer att tas bort permanent och går inte att återställa.",
+      "confirm": "Ta bort bil",
+      "cancel": "Avbryt"
+    },
+    "messages": {
+      "failedDelete": "Kunde inte ta bort bilen.",
+      "network": "Nätverksfel."
+    },
+    "thumbnailPlaceholder": "https://placehold.co/80x55?text=Img"
+  },
+  "leadsTab": {
+    "loading": "Laddar leads...",
+    "empty": "Inga leads inkomna ännu.",
+    "deleteModal": {
+      "title": "Ta bort lead?",
+      "message": "Leadet kommer att tas bort permanent och går inte att återställa.",
+      "confirm": "Ta bort lead",
+      "cancel": "Avbryt"
+    },
+    "buttons": {
+      "delete": "Ta bort lead",
+      "showMatches": "Visa {count} matchande bil(ar)",
+      "hideMatches": "Dölj matchande bilar"
+    },
+    "matchLabel": "match",
+    "placeholders": {
+      "image": "https://placehold.co/120x80?text=Img"
+    }
+  },
+  "dealersTab": {
+    "deleteModal": {
+      "title": "Ta bort {name}?",
+      "message": "Den här handlaren och tillhörande bilar kommer att tas bort permanent.",
+      "confirm": "Ta bort handlare",
+      "cancel": "Avbryt"
+    },
+    "buttons": {
+      "add": "Lägg till handlare",
+      "cancel": "Avbryt",
+      "save": "Spara handlare",
+      "saving": "Sparar...",
+      "delete": "Ta bort handlare",
+      "showCars": "Visa {count} bil(ar)",
+      "hideCars": "Dölj bilar"
+    },
+    "title": "Ny Handlare",
+    "labels": {
+      "name": "Företagsnamn",
+      "contactPerson": "Kontaktperson",
+      "email": "E-post",
+      "phone": "Telefon"
+    },
+    "placeholders": {
+      "name": "Eskilstuna Bilar AB",
+      "contactPerson": "Pelle Pil",
+      "email": "kontakt@bilhandlare.se",
+      "phone": "016-000 00 00"
+    },
+    "messages": {
+      "added": "Handlare tillagd!",
+      "failed": "Fel vid tillägg.",
+      "network": "Nätverksfel.",
+      "loading": "Laddar handlare...",
+      "empty": "Inga handlare registrerade ännu.",
+      "deleteConfirm": "Ta bort \"{name}\"? Alla tillhörande bilar tas också bort.",
+      "deleteFailed": "Kunde inte ta bort handlare: {error}",
+      "deleteNetwork": "Nätverksfel vid borttagning.",
+      "countSuffix": "bil(ar) i lager"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://autoeskil.se/sitemap.xml
+# Crawl-delay: 10
+# Remove disallowed paths if any (e.g., /admin)
+# Disallow: /admin
