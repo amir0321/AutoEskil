@@ -8,7 +8,7 @@
   ],
   "type": "module",
   "scripts": {
-    "install-all": "npm install && npm --prefix packages/Frontend install && npm --prefix packages/Backend install",
+    "install-all": "npm install",
     "dev": "sh -c 'npm --prefix packages/Backend start & npm --prefix packages/Frontend run dev; wait'",
     "backend:start": "npm --prefix packages/Backend start",
     "backend:test": "npm --prefix packages/Backend test",
@@ -16,7 +16,7 @@
     "frontend:build": "npm --prefix packages/Frontend run build",
     "frontend:lint": "npm --prefix packages/Frontend run lint",
     "frontend:preview": "npm --prefix packages/Frontend run preview",
-    "build": "npm --prefix packages/Frontend run build",
+    "build": "npm run build --workspaces",
     "start": "node packages/Backend/server.js"
   }
 }
