@@ -6,13 +6,18 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 import cors from "cors";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-app.set("trust proxy", false);
+app.set("trust proxy", 1);
 
 function escapeXml(value) {
   return String(value)
@@ -41,9 +46,29 @@ const corsOrigins =
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || corsOrigins.includes(origin)) {
+      // Tillåt requests utan origin (samma domän/mobile apps)
+      if (!origin) {
         return callback(null, true);
       }
+
+      // Tillåt localhost för development
+      if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
+        return callback(null, true);
+      }
+
+      // Tillåt samma domän (Render kommer att serva frontend på samma domän)
+      const host = process.env.RENDER_EXTERNAL_HOSTNAME || "";
+      const publicUrl = process.env.PUBLIC_SITE_URL || "";
+
+      if (origin.includes(host) || origin.includes(publicUrl)) {
+        return callback(null, true);
+      }
+
+      // Tillåt inställda origins
+      if (corsOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
       callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
@@ -80,6 +105,10 @@ setupDB()
       req.db = db;
       next();
     });
+
+    // Serva statiska filer från React-frontenden
+    const distPath = path.join(__dirname, "../Frontend/dist");
+    app.use(express.static(distPath));
 
     app.get("/sitemap.xml", async (req, res) => {
       try {
@@ -150,11 +179,16 @@ setupDB()
       }
     });
 
-    // Public and auth routes
+    // Public and admin routes
     app.use("/api", publicRoutes);
 
     // Protected admin routes
     app.use("/api/admin", adminRoutes);
+
+    // Skicka index.html för alla andra routes (React Router)
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
 
     app.listen(PORT, () => {
       console.log(`--- BILFÖRMEDLING ESKILSTUNA ---`);
