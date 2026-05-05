@@ -83,11 +83,12 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
-          // React inline scripts (nonce-based would be better, but this covers build output)
           "'unsafe-inline'",
           "https://www.google.com",
           "https://www.gstatic.com",
         ],
+        // Allow inline event handlers (e.g. onload on link tags for non-blocking fonts)
+        scriptSrcAttr: ["'unsafe-inline'"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
@@ -101,7 +102,11 @@ app.use(
           "https://www.gstatic.com",
           "https://res.cloudinary.com",
         ],
-        frameSrc: ["https://www.google.com"],
+        // reCAPTCHA needs both google.com and recaptcha-specific frames
+        frameSrc: [
+          "https://www.google.com",
+          "https://recaptcha.google.com",
+        ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       },
