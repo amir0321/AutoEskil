@@ -157,18 +157,11 @@ export async function createCarMatches(db, leadId, carIds) {
     return;
   }
 
-  // Förbered en SQL-fråga för att snabbt kunna lägga till flera rader.
-  const stmt = await db.prepare(
-    "INSERT INTO car_matches (lead_id, car_id) VALUES (?, ?)",
-  );
-
   // Loopa igenom alla matchande bil-ID:n och skapa en post i car_matches.
   for (const carId of carIds) {
-    await stmt.run(leadId, carId);
+    await db.run("INSERT INTO car_matches (lead_id, car_id) VALUES (?, ?)", [leadId, carId]);
   }
 
-  // Avsluta och städa upp SQL-frågan.
-  await stmt.finalize();
   console.log(`Skapade ${carIds.length} bilmatchningar för lead ${leadId}.`);
 }
 
