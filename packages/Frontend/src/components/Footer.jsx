@@ -5,9 +5,9 @@ import content from '../content/siteContent.json';
 
 // Ikoner för sociala medier
 const socialIcons = [
-    { href: content.footer.socialLinks[0].href, icon: <FaFacebook /> },
-    { href: content.footer.socialLinks[1].href, icon: <FaInstagram /> },
-    { href: content.footer.socialLinks[2].href, icon: <FaTwitter /> },
+    { href: content.footer.socialLinks[0].href, icon: <FaFacebook />, label: 'Facebook' },
+    { href: content.footer.socialLinks[1].href, icon: <FaInstagram />, label: 'Instagram' },
+    { href: content.footer.socialLinks[2].href, icon: <FaTwitter />, label: 'Twitter / X' },
 ];
 
 export default function Footer() {
@@ -48,7 +48,7 @@ export default function Footer() {
 
                     <div className={styles.socials}>
                         {socialIcons.map((social, index) => (
-                            <a key={index} href={social.href} className={styles.socialLink} target="_blank" rel="noopener noreferrer">
+                            <a key={index} href={social.href} className={styles.socialLink} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
                                 {social.icon}
                             </a>
                         ))}
