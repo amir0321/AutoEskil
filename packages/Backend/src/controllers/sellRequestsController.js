@@ -77,9 +77,8 @@ export async function getAllSellRequests(db) {
       data: rows.map((row) => {
         let images = [];
         if (row.sell_request_images_list) {
-          images = JSON.parse(row.sell_request_images_list).filter(
-            (url) => url !== null,
-          );
+          const parsedImages = typeof row.sell_request_images_list === 'string' ? JSON.parse(row.sell_request_images_list) : row.sell_request_images_list;
+          images = (Array.isArray(parsedImages) ? parsedImages : []).filter((url) => url !== null);
         }
         delete row.sell_request_images_list;
         return {

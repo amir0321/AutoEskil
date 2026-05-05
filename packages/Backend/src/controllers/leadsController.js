@@ -215,9 +215,8 @@ export async function getAllLeads(db) {
           .map(({ lead_id, car_images_list, ...carDetails }) => {
             let images = [];
             if (car_images_list) {
-              images = JSON.parse(car_images_list).filter(
-                (url) => url !== null,
-              );
+              const parsedImages = typeof car_images_list === 'string' ? JSON.parse(car_images_list) : car_images_list;
+              images = (Array.isArray(parsedImages) ? parsedImages : []).filter((url) => url !== null);
             }
             return { ...carDetails, images };
           }),

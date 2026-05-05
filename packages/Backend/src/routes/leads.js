@@ -191,9 +191,8 @@ router.post("/", leadSubmissionLimiter, async (req, res) => {
         const matchedCarsDetails = matchedCarsRaw.map((car) => {
           let images = [];
           if (car.car_images_list) {
-            images = JSON.parse(car.car_images_list).filter(
-              (url) => url !== null,
-            );
+            const parsedImages = typeof car.car_images_list === 'string' ? JSON.parse(car.car_images_list) : car.car_images_list;
+            images = (Array.isArray(parsedImages) ? parsedImages : []).filter((url) => url !== null);
           }
           if (images.length === 0 && car.image_url) {
             images = [car.image_url];
