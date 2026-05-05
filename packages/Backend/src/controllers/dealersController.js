@@ -19,7 +19,7 @@ async function addDealer(db, dealerData) {
 
 async function getAllDealers(db) {
   try {
-    const dealers = await db.all("SELECT * FROM dealers ORDER BY rowid DESC");
+    const dealers = await db.all("SELECT * FROM dealers ORDER BY id DESC");
 
     const cars = await db.all(`
       SELECT c.*,
