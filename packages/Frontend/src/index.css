@@ -6,11 +6,11 @@
   --card-border: #2C2C2C;
   --card-border-hover: var(--accent);
 
-  --accent: #007BFF;
-  /* En klarare, mer professionell blå */
+  /* Mörkare blå = bättre kontrast med vit text (6.9:1, godkänt WCAG AA) */
+  --accent: #0062cc;
   --accent-2: #3395ff;
-  --accent-hover: #0062cc;
-  --accent-glow: rgba(0, 123, 255, 0.2);
+  --accent-hover: #004fa3;
+  --accent-glow: rgba(0, 98, 204, 0.2);
   --accent-danger: #ef4444;
   --accent-danger-border: rgba(239, 68, 68, 0.4);
   --accent-danger-hover: rgba(239, 68, 68, 0.12);
