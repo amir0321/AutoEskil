@@ -43,7 +43,8 @@ async function getAllDealers(db) {
         .map(({ dealer_id, car_images_list, ...carDetails }) => {
           let images = [];
           if (car_images_list) {
-            images = JSON.parse(car_images_list).filter((url) => url !== null);
+            const parsed = typeof car_images_list === 'string' ? JSON.parse(car_images_list) : car_images_list;
+            images = (Array.isArray(parsed) ? parsed : []).filter((url) => url !== null);
           }
           if (images.length === 0 && carDetails.image_url) {
             images = [carDetails.image_url];
@@ -117,7 +118,8 @@ async function updateDealer(db, dealerId, dealerData) {
       ({ car_images_list, dealer_id, ...carDetails }) => {
         let images = [];
         if (car_images_list) {
-          images = JSON.parse(car_images_list).filter((url) => url !== null);
+          const parsed = typeof car_images_list === 'string' ? JSON.parse(car_images_list) : car_images_list;
+          images = (Array.isArray(parsed) ? parsed : []).filter((url) => url !== null);
         }
         if (images.length === 0 && carDetails.image_url) {
           images = [carDetails.image_url];

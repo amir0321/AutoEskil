@@ -133,7 +133,8 @@ router.get("/", async (req, res) => {
       // ... resten av din befintliga mappnings-logik (images, equipmentList osv)
       let images = [];
       if (car.car_images_list) {
-        images = JSON.parse(car.car_images_list).filter((url) => url !== null);
+        const parsedImages = typeof car.car_images_list === 'string' ? JSON.parse(car.car_images_list) : car.car_images_list;
+        images = (Array.isArray(parsedImages) ? parsedImages : []).filter((url) => url !== null);
       }
       if (images.length === 0 && car.image_url) {
         images = [car.image_url];
@@ -143,7 +144,7 @@ router.get("/", async (req, res) => {
       let equipmentList = [];
       if (car.equipment) {
         try {
-          equipmentList = JSON.parse(car.equipment);
+          equipmentList = typeof car.equipment === 'string' ? JSON.parse(car.equipment) : (car.equipment || []);
         } catch (e) {
           equipmentList = [];
         }
@@ -197,7 +198,8 @@ router.get("/:id", async (req, res) => {
     let images = [];
     if (car.car_images_list) {
       // Filtrera bort eventuella null-värden om inga bilder finns
-      images = JSON.parse(car.car_images_list).filter((url) => url !== null);
+      const parsedImages = typeof car.car_images_list === 'string' ? JSON.parse(car.car_images_list) : car.car_images_list;
+      images = (Array.isArray(parsedImages) ? parsedImages : []).filter((url) => url !== null);
     }
     // Fallback för äldre bilar som kan ha image_url direkt på car-objektet
     if (images.length === 0 && car.image_url) {
@@ -208,7 +210,7 @@ router.get("/:id", async (req, res) => {
     let equipmentList = [];
     if (car.equipment) {
       try {
-        equipmentList = JSON.parse(car.equipment);
+        equipmentList = typeof car.equipment === 'string' ? JSON.parse(car.equipment) : (car.equipment || []);
       } catch (e) {
         equipmentList = [];
       }
