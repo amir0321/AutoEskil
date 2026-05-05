@@ -64,7 +64,7 @@
       {
         "heading": "Kontakt",
         "links": [
-          { "href": "tel:016-000 00 00", "label": "016-000 00 00" },
+          { "href": "tel:073-652 25 75", "label": "073-652 25 75" },
           { "href": "mailto:info@autoeskil.se", "label": "info@autoeskil.se" }
         ]
       },
@@ -242,7 +242,7 @@
       {
         "icon": "📞",
         "label": "Telefon",
-        "value": "016-000 00 00"
+        "value": "073-652 25 75"
       },
       {
         "icon": "✉️",
@@ -567,7 +567,7 @@
       "name": "Eskilstuna Bilar AB",
       "contactPerson": "Pelle Pil",
       "email": "kontakt@bilhandlare.se",
-      "phone": "016-000 00 00"
+      "phone": "073-652 25 75"
     },
     "messages": {
       "added": "Handlare tillagd!",
