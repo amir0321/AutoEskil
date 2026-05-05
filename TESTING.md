@@ -9,13 +9,29 @@ Innan du deplayer till Render, testa att allt fungerar lokalt:
 ```bash
 cd /Users/amir/Desktop/Project/FullStack-projekt/AutoEskil
 
-# Installera alla deps
+# Installera alla deps (inklusive nya PostgreSQL-paket)
 npm run install-all
+```
+
+**Obs!** Backend använder nu PostgreSQL (`pg`-paketet) istället för SQLite.
+
+---
+
+## 2. Sätt DATABASE_URL-miljövariabel
+
+**Option A: Lokal PostgreSQL (om du har den)**
+```bash
+export DATABASE_URL="postgresql://username:password@localhost:5432/autoeskil"
+```
+
+**Option B: Använd Render-databasen (enkelt)**
+```bash
+export DATABASE_URL="postgresql://autoeskil_user:ljqRQpmhOmtuR2Y0jjLTeGGn3Mi7liFZ@dpg-d7sr4o1kh4rs739aib5g-a/autoeskil"
 ```
 
 ---
 
-## 2. Bygg Frontend
+## 3. Bygg Frontend
 
 ```bash
 # Bygg React-frontend för production
@@ -27,11 +43,11 @@ npm run frontend:build
 
 ---
 
-## 3. Starta Backend (serverar beide API + Frontend)
+## 4. Starta Backend (serverar både API + Frontend)
 
 ```bash
-# Sätt PORT-miljövariabel och starta
-PORT=3001 npm start
+# Med DATABASE_URL från Render
+DATABASE_URL="postgresql://autoeskil_user:ljqRQpmhOmtuR2Y0jjLTeGGn3Mi7liFZ@dpg-d7sr4o1kh4rs739aib5g-a/autoeskil" PORT=3001 npm start
 
 # Du bör se:
 # --- BILFÖRMEDLING ESKILSTUNA ---
@@ -39,9 +55,11 @@ PORT=3001 npm start
 # Databasen är ansluten och redo.
 ```
 
+**Obs!** Första gången backend ansluter skapar det automatiskt alla PostgreSQL-tabeller.
+
 ---
 
-## 4. Testa i Browser
+## 5. Testa i Browser
 
 ```
 http://localhost:3001

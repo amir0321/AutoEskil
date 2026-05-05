@@ -2,7 +2,50 @@
 
 ## 📝 Sammanfattning
 
-Din projekt har konfigurerats för deployment på Render.com. Här är alla ändringar som gjordes:
+Din projekt har konfigurerats för deployment på Render.com. **Största ändring: SQLite → PostgreSQL!**
+
+---
+
+## 🔄 **STÖRRE FÖRÄNDRING: SQLite → PostgreSQL**
+
+### Varför?
+- ❌ SQLite fungerar INTE på Render (ingen persistent filsystem)
+- ✅ PostgreSQL är en proper SQL-databas som Render stöder fullt ut
+- ✅ PostgreSQL är bättre för production
+
+### Vad ändrades?
+
+**1. `packages/Backend/db.js`** - Helt omskriven för PostgreSQL
+```javascript
+// Tidigare: SQLite med db.js
+import sqlite3 from "sqlite3";
+const dbPath = path.join(__dirname, "database", "bilformedling_etuna.db");
+
+// Nu: PostgreSQL med pg
+import pg from "pg";
+const DATABASE_URL = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString: DATABASE_URL });
+```
+
+**2. Alla queries omskrivna**
+```javascript
+// Tidigare SQLite:
+db.get("SELECT * FROM cars WHERE id = ?", [id])
+
+// Nu PostgreSQL:
+pool.query("SELECT * FROM cars WHERE id = $1", [id])
+```
+
+**3. Wrapper-funktioner för backward kompatibilitet**
+- `db.all()`, `db.get()`, `db.run()` - fungerar fortfarande
+- Konverterar automatiskt `?` → `$1`, `$2` osv.
+
+**4. package.json** - Updated dependencies
+```diff
+- "sqlite": "^5.1.1",
+- "sqlite3": "^6.0.1"
++ "pg": "^8.11.3"
+```
 
 ---
 

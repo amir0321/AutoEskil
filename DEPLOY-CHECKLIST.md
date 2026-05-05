@@ -13,7 +13,7 @@
 1. [ ] **GitHub:** Pusha all kod till din repo
    ```bash
    git add .
-   git commit -m "Prepare for Render deployment"
+   git commit -m "Migrate to PostgreSQL and prepare for Render deployment"
    git push origin main
    ```
 
@@ -23,61 +23,75 @@
 
 ## 🚀 Render Deployment Steps
 
-### ▶️ Steg 1: PostgreSQL Database
+### ▶️ Steg 1: PostgreSQL Database (REDAN SKAPAD!) ✅
 
-- [ ] Gå till Render Dashboard
-- [ ] Ny → PostgreSQL
-- [ ] Namn: `autoeskil`
-- [ ] Region: `Frankfurt (eu-central-1)`
-- [ ] Plan: **Free**
-- [ ] Kopiera **Internal Database URL**
+Du har redan GÅ och skapat en PostgreSQL-databas på Render!
 
-**Sparad URL:** `___________________________________`
+**Din DATABASE_URL:**
+```
+postgresql://autoeskil_user:ljqRQpmhOmtuR2Y0jjLTeGGn3Mi7liFZ@dpg-d7sr4o1kh4rs739aib5g-a/autoeskil
+```
+
+**Spara denna!** Du behöver den i nästa steg.
 
 ---
 
 ### ▶️ Steg 2: Web Service (Backend)
 
-- [ ] Ny → Web Service
-- [ ] Anslut GitHub-repo
-- [ ] **Name:** autoeskil-backend
-- [ ] **Region:** Frankfurt (samma som DB!)
-- [ ] **Branch:** main
-- [ ] **Runtime:** Node
-- [ ] **Build Command:** `npm install && npm run build`
-- [ ] **Start Command:** `npm start`
+- [ ] Gå till Render Dashboard: https://render.com/dashboard
+- [ ] Klicka **"New +" → "Web Service"**
+- [ ] Anslut ditt GitHub-repo (Select the repo)
+- [ ] Fyll i dessa inställningar:
 
-**Environment Variables (Advanced):**
+  | Setting | Värde |
+  |---------|-------|
+  | **Name** | autoeskil-backend |
+  | **Region** | Frankfurt (eu-central-1) |
+  | **Branch** | main |
+  | **Runtime** | Node |
+  | **Build Command** | `npm install && npm run build` |
+  | **Start Command** | `npm start` |
+
+- [ ] Klicka **"Advanced"** och sedan **"Add Environment Variable"**
+
+**Lee till dessa Environment Variables:**
 
 ```
-DATABASE_URL = [från PostgreSQL URL ovan]
+DATABASE_URL = postgresql://autoeskil_user:ljqRQpmhOmtuR2Y0jjLTeGGn3Mi7liFZ@dpg-d7sr4o1kh4rs739aib5g-a/autoeskil
 JWT_SECRET = [generera: openssl rand -base64 32]
 ALLOWED_ORIGINS = https://autoeskil.se,https://www.autoeskil.se
 PUBLIC_SITE_URL = https://autoeskil.se
+NODE_ENV = production
 ```
 
-- [ ] Skapa Web Service
-- [ ] Vänta på build (5-10 min) - se Logs
-- [ ] Kopiera din Render URL: `_____________________.onrender.com`
+- [ ] Klicka **"Create Web Service"**
+- [ ] Vänta på build (5-10 minuter) - Se progress i **Logs**
+- [ ] **Kopiera din Render URL** (ser ut som: `autoeskil-backend.onrender.com`)
 
 ---
 
 ### ▶️ Steg 3: Custom Domain (One.com)
 
 **I Render Dashboard:**
-- [ ] Gå till Web Service → Settings
-- [ ] Custom Domain → Add Domain
+- [ ] Gå till din Web Service → **Settings** (längst upp)
+- [ ] Scrolla ner till **"Custom Domain"**
+- [ ] Klicka **"Add Custom Domain"**
 - [ ] Skriv: `autoeskil.se`
-- [ ] Kopiera DNS-instruktionerna från Render
+- [ ] Klicka **"Add Domain"**
+
+Render visar DNS-instruktioner. **Kopiera värdena!**
 
 **I One.com Dashboard:**
-- [ ] Logga in på one.com
-- [ ] Gå till DNS Records
+- [ ] Logga in: https://one.com
+- [ ] Gå till **Domains** → **DNS Records** (eller Zonefil)
 - [ ] **Uppdatera:**
-  - [ ] A/ANAME record: @ → [Render IP]
-  - [ ] CNAME record: www → autoeskil.onrender.com
 
-- [ ] Spara - Vänta på DNS (10-60 min)
+  | Record Type | Namn | Värde |
+  |-------------|------|-------|
+  | **A eller ANAME** | `@` | [Render IP-adress] |
+  | **CNAME** | `www` | `autoeskil.onrender.com` |
+
+- [ ] **Spara** - DNS uppdateras inom 10-60 min
 
 ---
 
@@ -87,7 +101,7 @@ PUBLIC_SITE_URL = https://autoeskil.se
 # Test att sidan laddar
 curl https://autoeskil.se
 
-# Test API
+# Test att API fungerar
 curl https://autoeskil.se/api/cars
 
 # Kontrollera Render logs
@@ -98,9 +112,8 @@ curl https://autoeskil.se/api/cars
 
 ## 📚 Dokumentation
 
-- **Setup guide:** `RENDER-SETUP.md`
-- **Environment vars:** `.env.example`
-- **Backend start:** `packages/Backend/server.js`
+- **Render Setup guide:** `RENDER-SETUP.md`
+- **Alla environment vars:** `.env.example`
 
 ---
 
@@ -110,10 +123,10 @@ Varje push till GitHub triggerar automatisk deploy:
 
 ```bash
 git add .
-git commit -m "Din meddelande"
+git commit -m "Din ändring"
 git push origin main
 # Render bygger och deployar automatiskt!
 ```
 
-**Grattis! Din app leve nu på autoeskil.se** 🚀
+**Grattis!** 🚀
 

@@ -8,13 +8,16 @@
 
 ### Steg 1: Testa lokalt (5 minuter)
 
+**Viktigt:** Installera PostgreSQL-paket först!
 ```bash
+npm --prefix packages/Backend install
 npm run frontend:build
+export DATABASE_URL="postgresql://autoeskil_user:ljqRQpmhOmtuR2Y0jjLTeGGn3Mi7liFZ@dpg-d7sr4o1kh4rs739aib5g-a/autoeskil"
 PORT=3001 npm start
 # Besök: http://localhost:3001
 ```
 
-Se `TESTING.md` om något går fel.
+**Se även:** `POSTGRESQL-MIGRATION.md` för info om SQLite → PostgreSQL-migrationen
 
 ---
 
@@ -46,6 +49,7 @@ Se `DEPLOY-CHECKLIST.md` för steg-för-steg instruktioner.
 | Läs denna... | För att... |
 |---|---|
 | **[DEPLOYMENT-READY.md](./DEPLOYMENT-READY.md)** | 🎯 Se status & nästa steg |
+| **[POSTGRESQL-MIGRATION.md](./POSTGRESQL-MIGRATION.md)** | 🔄 Förstå SQLite → PostgreSQL-migrationen |
 | **[DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md)** | ✅ Steg-för-steg deployment |
 | **[RENDER-SETUP.md](./RENDER-SETUP.md)** | 📖 Fullständig guide |
 | **[TESTING.md](./TESTING.md)** | 🧪 Testa innan deploy |

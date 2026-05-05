@@ -9,6 +9,7 @@ Denna guide hjälper dig att lägga upp AutoEskil på Render.com en gång för a
 - [x] GitHub-konto med projektet uppladdat
 - [x] Render.com-konto (logga in med GitHub)
 - [x] One.com-domän (autoeskil.se)
+- [x] PostgreSQL-databas redan skapad på Render
 
 ---
 
@@ -16,35 +17,40 @@ Denna guide hjälper dig att lägga upp AutoEskil på Render.com en gång för a
 
 ### Steg 1: Förbered koden ✓
 Projektet är redan förberett! Vi har redan:
+- ✓ Migrerat från SQLite till PostgreSQL
 - ✓ Satt `PORT = process.env.PORT || 3001` i server.js
 - ✓ Skapat build-scripts i root package.json
 - ✓ Konfigurerat backend att serva React-frontend
+- ✓ Backend använder PostgreSQL via `pg`-paketet
 
 **Checklist:**
 ```bash
+# Installera nya dependencies
+npm install
+npm --prefix packages/Backend install
+
 # Kontrollera att allt är i GitHub
 git status
-git push origin main  # Eller din branch
+git add .
+git commit -m "Migrate to PostgreSQL"
+git push origin main
 ```
 
 ---
 
-### Steg 2: Skapa PostgreSQL Database på Render
+### Steg 2: PostgreSQL Database på Render ✅ (REDAN SKAPAD!)
 
-1. Gå till https://render.com/dashboard
-2. Klicka **"New"** → **"PostgreSQL"**
-3. **Database name:** `autoeskil`
-4. **Region:** `Frankfurt (eu-central-1)` eller närmaste dig
-5. **PostgreSQL Version:** `15` (eller senare)
-6. Välj **"Free"** plan
-7. Klicka **"Create Database"**
+Du har redan skapat en PostgreSQL-databas! Din URL är:
 
-⏱️ Vänta ~2-3 minuter. Du får ett mail när databasen är klar.
+```
+postgresql://autoeskil_user:ljqRQpmhOmtuR2Y0jjLTeGGn3Mi7liFZ@dpg-d7sr4o1kh4rs739aib5g-a/autoeskil
+```
 
-**Kopiera din Database URL:**
-- I databasens dashboard, under **"Connections"**
-- Kopiera **"Internal Database URL"** (ser ut som: `postgresql://user:pass@hostname:5432/db`)
-- **Spara denna** - du behöver den i nästa steg!
+**Denna URL är redan konfigurerad i:**
+- ✓ `.env.example` (referens)
+- ✓ Din db.js använder `process.env.DATABASE_URL`
+
+Du behöver inte göra något i det här steget! Gå direkt till **Steg 3**.
 
 ---
 
@@ -71,12 +77,13 @@ git push origin main  # Eller din branch
    
    Lägg till dessa variabler:
    
-   | Nyckel | Värde |
-   |--------|-------|
-   | `DATABASE_URL` | Klistra in URL från Steg 2 |
-   | `JWT_SECRET` | Generera: `openssl rand -base64 32` |
-   | `ALLOWED_ORIGINS` | `https://autoeskil.se,https://www.autoeskil.se` |
-   | `PUBLIC_SITE_URL` | `https://autoeskil.se` |
+    | Nyckel | Värde |
+    |--------|-------|
+    | `DATABASE_URL` | `postgresql://autoeskil_user:ljqRQpmhOmtuR2Y0jjLTeGGn3Mi7liFZ@dpg-d7sr4o1kh4rs739aib5g-a/autoeskil` |
+    | `JWT_SECRET` | Generera: `openssl rand -base64 32` |
+    | `ALLOWED_ORIGINS` | `https://autoeskil.se,https://www.autoeskil.se` |
+    | `PUBLIC_SITE_URL` | `https://autoeskil.se` |
+    | `NODE_ENV` | `production` |
 
 6. Klicka **"Create Web Service"**
 

@@ -3,11 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const secret = process.env.API_SECRET_KEY;
+// Använd API_SECRET_KEY eller JWT_SECRET (for Render compatibility)
+const secret = process.env.API_SECRET_KEY || process.env.JWT_SECRET;
 const authCookieName = "admin_token";
 
 if (!secret) {
-  throw new Error("API_SECRET_KEY is not defined in your .env file");
+  throw new Error("Neither API_SECRET_KEY nor JWT_SECRET is defined in your .env file");
 }
 
 // This middleware checks for a valid JWT in the Authorization header
