@@ -25,6 +25,8 @@ import InterestedModal from "../components/InterestedModal";
 import content from "../content/siteContent.json";
 import { setJsonLd, setPageSeo } from "../utils/seo";
 import styles from "./CarDetails.module.css";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { RECAPTCHA_SITE_KEY } from "../utils/recaptcha";
 
 export const route = {
   path: "/bilar/:id",
@@ -110,7 +112,7 @@ function hasValue(value) {
   );
 }
 
-export default function CarDetails() {
+function CarDetailsInner() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [car, allCars, loading, error] = useFetch(
@@ -800,5 +802,13 @@ export default function CarDetails() {
         />
       )}
     </div>
+  );
+}
+
+export default function CarDetails() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>
+      <CarDetailsInner />
+    </GoogleReCaptchaProvider>
   );
 }

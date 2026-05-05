@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { apiUrl } from "../utils/api";
 import content from "../content/siteContent.json";
 import { setPageSeo } from "../utils/seo";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha, GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { RECAPTCHA_SITE_KEY } from "../utils/recaptcha";
 
 export const route = {
   path: "/sell-car",
@@ -25,7 +26,7 @@ const initialForm = {
   website: "",
 };
 
-export default function SellCars() {
+function SellCarsInner() {
   const [form, setForm] = useState(initialForm);
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -708,5 +709,13 @@ export default function SellCars() {
         </button>
       </form>
     </section>
+  );
+}
+
+export default function SellCars() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>
+      <SellCarsInner />
+    </GoogleReCaptchaProvider>
   );
 }

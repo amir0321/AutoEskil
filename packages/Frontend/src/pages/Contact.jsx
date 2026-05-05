@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import styles from "./Contact.module.css";
-import CarCard from "../components/CarCard"; // Importera CarCard
+import CarCard from "../components/CarCard";
 import { apiUrl } from "../utils/api";
 import content from "../content/siteContent.json";
 import { setPageSeo } from "../utils/seo";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { RECAPTCHA_SITE_KEY } from "../utils/recaptcha";
 
 export const route = {
   path: "/kontakt",
@@ -28,7 +29,7 @@ const initialForm = {
   requirements: "",
 };
 
-export default function Contact() {
+function ContactInner() {
   const [form, setForm] = useState(initialForm);
   const [formStartedAt] = useState(() => Date.now());
   const [sent, setSent] = useState(false);
@@ -451,5 +452,13 @@ export default function Contact() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Contact() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>
+      <ContactInner />
+    </GoogleReCaptchaProvider>
   );
 }
