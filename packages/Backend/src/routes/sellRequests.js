@@ -229,7 +229,7 @@ router.post("/", sellRequestLimiter, upload.array("images", 10), async (req, res
 
             // Städa upp (radera) ALLA filer från denna uppladdning från hårddisken
             for (const f of req.files) {
-              await fsPromises.unlink(f.path).catch(() => {});
+              await fsPromises.unlink(f.path).catch(() => { });
             }
 
             return res.status(400).json({
@@ -243,14 +243,14 @@ router.post("/", sellRequestLimiter, upload.array("images", 10), async (req, res
 
         // 3. Städa upp de lokala filerna efter att Cloudinary är klart (bra för hårddiskutrymmet!)
         for (const file of req.files) {
-          await fsPromises.unlink(file.path).catch(() => {});
+          await fsPromises.unlink(file.path).catch(() => { });
         }
 
       } catch (uploadError) {
         console.error("Error handling images:", uploadError);
         // Om något går fel med Cloudinary, städa upp filerna från disken
         for (const file of req.files) {
-          await fsPromises.unlink(file.path).catch(() => {});
+          await fsPromises.unlink(file.path).catch(() => { });
         }
       }
     }

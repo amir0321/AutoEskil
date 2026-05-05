@@ -40,7 +40,7 @@ function shouldBypassLeadRateLimit(req) {
 
 const leadSubmissionLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 2,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   skip: (req) => shouldBypassLeadRateLimit(req),
