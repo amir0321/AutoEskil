@@ -40,8 +40,11 @@ router.post("/login", loginLimiter, async (req, res) => {
     return res.status(400).json({ message: "Username and password are required" });
   }
 
+  // Gör användarnamnet case-insensitivt (omvandla till gemener vid sökning)
+  const normalizedUsername = username.toLowerCase();
+
   try {
-    const user = await db.get("SELECT * FROM users WHERE username = ?", [username]);
+    const user = await db.get("SELECT * FROM users WHERE LOWER(username) = ?", [normalizedUsername]);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign(
