@@ -1,6 +1,9 @@
-const API_BASE = (
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-).replace(/\/$/, "");
+const API_BASE = import.meta.env.PROD
+  ? ""
+  : (import.meta.env.VITE_API_BASE_URL || "http://localhost:3000").replace(
+      /\/$/,
+      "",
+    );
 
 export const apiUrl = (path) =>
   `${API_BASE}${path.startsWith("/") ? path : `/${path}`}`;

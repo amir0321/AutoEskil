@@ -76,7 +76,12 @@ app.use(
 );
 
 // Basic security with Helmet
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  }),
+);
 
 app.use(express.json());
 app.use(cookieParser());
