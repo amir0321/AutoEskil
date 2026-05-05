@@ -133,7 +133,7 @@
         "cta": "Se alla bilar"
       },
       {
-        "to": "/hitta-bil",
+        "to": "/kontakt",
         "tag": "Matchning",
         "title": "Hitta Bil",
         "text": "Berätta vad du söker – märke, budget, drivmedel – och vi matchar dig med rätt fordon direkt.",
@@ -166,7 +166,7 @@
       "title": "Redo att hitta din nästa bil?",
       "subtitle": "Lämna en intresseanmälan och vi återkommer inom 24 timmar med passande alternativ.",
       "primaryCta": "Hitta min bil",
-      "primaryCtaTo": "/hitta-bil",
+      "primaryCtaTo": "/kontakt",
       "secondaryCta": "Se lagret",
       "secondaryCtaTo": "/bilar",
       "tertiaryCtaLabel": "Sälj din bil →",
@@ -204,7 +204,7 @@
     "ctaTitle": "Redo för din nästa bilaffär?",
     "ctaSubtitle": "Vi hjälper dig oavsett om du vill köpa eller sälja. Kontakta oss idag – svar inom 24 timmar.",
     "ctaPrimaryLabel": "Hitta min bil",
-    "ctaPrimaryTo": "/hitta-bil",
+    "ctaPrimaryTo": "/kontakt",
     "ctaSecondaryLabel": "Sälj din bil",
     "ctaSecondaryTo": "/sälj-bil"
   },
