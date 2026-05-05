@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Full-stack car marketplace application",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "type": "module",
   "scripts": {
     "install-all": "npm install && npm --prefix packages/Frontend install && npm --prefix packages/Backend install",
