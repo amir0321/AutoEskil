@@ -135,7 +135,7 @@
         "cta": "Läs mer"
       },
       {
-        "to": "//sell-car",
+        "to": "/sell-car",
         "tag": "Sälj",
         "title": "Sälj Din Bil",
         "text": "Vill du sälja? Fyll i ett enkelt formulär så granskar vi din bil och återkommer med ett erbjudande.",
@@ -158,7 +158,7 @@
       "secondaryCta": "Se lagret",
       "secondaryCtaTo": "/bilar",
       "tertiaryCtaLabel": "Sälj din bil →",
-      "tertiaryCtaTo": "//sell-car"
+      "tertiaryCtaTo": "/sell-car"
     }
   },
   "about": {
@@ -206,7 +206,7 @@
     "ctaPrimaryLabel": "Hitta min bil",
     "ctaPrimaryTo": "/kontakt",
     "ctaSecondaryLabel": "Sälj din bil",
-    "ctaSecondaryTo": "//sell-car"
+    "ctaSecondaryTo": "/sell-car"
   },
   "cars": {
     "heroTitleLead": "Våra",
