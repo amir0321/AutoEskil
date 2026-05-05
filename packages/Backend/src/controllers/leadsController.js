@@ -162,7 +162,7 @@ export async function createCarMatches(db, leadId, carIds) {
     await db.run("INSERT INTO car_matches (lead_id, car_id) VALUES (?, ?)", [leadId, carId]);
   }
 
-  console.log(`Skapade ${carIds.length} bilmatchningar för lead ${leadId}.`);
+
 }
 
 export async function deleteLead(db, leadId) {
