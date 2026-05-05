@@ -78,12 +78,40 @@ app.use(
 // Basic security with Helmet
 app.use(
   helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          // React inline scripts (nonce-based would be better, but this covers build output)
+          "'unsafe-inline'",
+          "https://www.google.com",
+          "https://www.gstatic.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+        ],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        connectSrc: [
+          "'self'",
+          "https://www.google.com",
+          "https://www.gstatic.com",
+          "https://res.cloudinary.com",
+        ],
+        frameSrc: ["https://www.google.com"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+    },
     crossOriginEmbedderPolicy: false,
   }),
 );
 
-app.use(express.json());
+// Limit JSON payload size to prevent large-body DoS attacks
+app.use(express.json({ limit: '50kb' }));
 app.use(cookieParser());
 
 // Rate limiting to prevent abuse
@@ -101,6 +129,14 @@ const limiter = rateLimit({
 app.use(limiter);
 
 const PORT = process.env.PORT || 3000;
+
+// Startup security checks
+if (!process.env.RECAPTCHA_SECRET_KEY) {
+  console.warn("⚠️  VARNING: RECAPTCHA_SECRET_KEY är inte satt. Alla publika formulär kommer att blockera alla inskick!");
+}
+if (!process.env.API_SECRET_KEY && !process.env.JWT_SECRET) {
+  console.error("❌  FEL: Varken API_SECRET_KEY eller JWT_SECRET är satt. Autentisering fungerar inte!");
+}
 
 // Setup and start server
 setupDB()

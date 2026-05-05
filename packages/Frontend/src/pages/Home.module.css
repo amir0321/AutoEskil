@@ -153,7 +153,8 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--accent);
+    /* Ökad kontrast: ljusblå istället för --accent (#007BFF) */
+    color: #7ec8ff;
     margin-bottom: 0.5rem;
 }
 
@@ -175,7 +176,8 @@
 .featureCta {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--accent);
+    /* Ökad kontrast: ljusblå istället för --accent (#007BFF) */
+    color: #7ec8ff;
     display: flex;
     align-items: center;
     gap: 0.3rem;
