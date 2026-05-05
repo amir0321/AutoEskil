@@ -1,0 +1,239 @@
+/* Login.module.css */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 1rem; /* Hindrar kortet från att slå i kanterna på små skärmar */
+}
+
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  /* En lite mörkblåare bas istället för kolsvart */
+  background-color: #0f172a; 
+  /* Större och starkare färgcirklar */
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.5), transparent 55%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.5), transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.2), transparent 60%);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Sänkt från 0.85 (85%) till 0.3 (30%) så färgerna lyser igenom */
+  background: rgba(9, 9, 11, 0.3); 
+  /* Ökat blur kraftigt för att göra gradienterna mjuka och drömlika */
+  backdrop-filter: blur(60px); 
+  -webkit-backdrop-filter: blur(60px); /* För Safari-stöd */
+  z-index: -1;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.05); /* Något mörkare för bättre kontrast mot vita inputs */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtil kantlinje för "glassmorphism"-effekten */
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  padding: 3rem 2.5rem;
+  backdrop-filter: blur(12px);
+  animation: fadeInUp 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.cardTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+}
+
+.cardSubtitle {
+  color: #94a3b8; /* Ljusare grå för att synas bättre mot den mörka bakgrunden */
+  font-size: 1.05rem;
+}
+
+.error {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--accent, #3b82f6); /* Modernare blå nyans */
+  margin-bottom: 0.4rem;
+  display: block;
+  font-size: 0.95rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent; /* Använd 2px transparent för snyggare fokus-effekt */
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #0f172a; /* Explicit textfärg så vit text inte försvinner på vit bakgrund */
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent, #3b82f6);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Snygg "focus ring" */
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  padding: 0.85rem 0;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background-color: var(--accent, #3b82f6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* FIXAD CHECKBOX */
+.customCheckbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: #e2e8f0; /* Ljus text för "Kom ihåg mig" */
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.customCheckbox:hover {
+  color: #ffffff;
+}
+
+.customCheckbox input[type="checkbox"] {
+  appearance: none;
+  width: 1.25em;
+  height: 1.25em;
+  
+  /* --- HÄR ÄR FIXEN --- */
+  min-height: 0; /* Skriver över din globala min-height: 44px */
+  min-width: 0;  /* För säkerhets skull */
+  padding: 0;    /* Rensar bort eventuell global padding */
+  margin: 0;     /* Återställer marginaler */
+  margin-right: 0.6em; /* Vår specifika marginal mot texten */
+  /* --------------------- */
+
+  border: 2px solid #94a3b8;
+  border-radius: 6px;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+  display: inline-block; /* Säkerställer att den inte beter sig konstigt i flexbox */
+}
+
+.customCheckbox input[type="checkbox"]:hover {
+  border-color: var(--accent, #3b82f6);
+}
+
+.customCheckbox input[type="checkbox"]:checked {
+  background: var(--accent, #3b82f6);
+  border-color: var(--accent, #3b82f6);
+}
+
+.customCheckbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 0.35em;
+  top: 0.15em;
+  width: 0.35em;
+  height: 0.65em;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 2rem 1.5rem; /* Ökade paddingen från 0.5rem så det inte ligger klistrat mot kanten */
+    border-radius: 16px;
+  }
+
+  .cardTitle {
+    font-size: 1.7rem;
+  }
+
+  .form-control {
+    font-size: 1rem; /* Sänk inte under 16px (1rem) på mobil för att undvika auto-zoom i iOS Safari */
+    padding: 0.75rem 1rem;
+  }
+
+  .submitBtn {
+    font-size: 1.05rem;
+  }
+}
