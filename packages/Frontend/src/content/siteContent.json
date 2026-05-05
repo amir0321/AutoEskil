@@ -53,31 +53,19 @@
       {
         "heading": "Navigering",
         "links": [
-          {
-            "to": "/",
-            "label": "Hem"
-          },
-          {
-            "to": "/bilar",
-            "label": "Våra Bilar"
-          },
-          {
-            "to": "kontakt",
-            "label": "Hitta Bil"
-          }
+          { "to": "/", "label": "Hem" },
+          { "to": "/bilar", "label": "Våra Bilar" },
+          { "to": "/kontakt", "label": "Hitta Bil" },
+          { "to": "/sell-car", "label": "Sälj Din Bil" },
+          { "to": "/om-oss", "label": "Om Oss" },
+          { "href": "https://www.snapbil.se", "label": "Transport ↗" }
         ]
       },
       {
         "heading": "Kontakt",
         "links": [
-          {
-            "href": "tel:016-000 00 00",
-            "label": "016-000 00 00"
-          },
-          {
-            "href": "mailto:info@autoeskil.se",
-            "label": "info@autoeskil.se"
-          }
+          { "href": "tel:016-000 00 00", "label": "016-000 00 00" },
+          { "href": "mailto:info@autoeskil.se", "label": "info@autoeskil.se" }
         ]
       },
       {
@@ -147,7 +135,7 @@
         "cta": "Läs mer"
       },
       {
-        "to": "/sälj-bil",
+        "to": "//sell-car",
         "tag": "Sälj",
         "title": "Sälj Din Bil",
         "text": "Vill du sälja? Fyll i ett enkelt formulär så granskar vi din bil och återkommer med ett erbjudande.",
@@ -170,7 +158,7 @@
       "secondaryCta": "Se lagret",
       "secondaryCtaTo": "/bilar",
       "tertiaryCtaLabel": "Sälj din bil →",
-      "tertiaryCtaTo": "/sälj-bil"
+      "tertiaryCtaTo": "//sell-car"
     }
   },
   "about": {
@@ -197,16 +185,28 @@
       }
     ],
     "trust": [
-      { "icon": "🏆", "stat": "200+", "label": "Nöjda kunder" },
-      { "icon": "⚡", "stat": "24h",  "label": "Svar garanterat" },
-      { "icon": "📅", "stat": "2014", "label": "Grundat" }
+      {
+        "icon": "🏆",
+        "stat": "200+",
+        "label": "Nöjda kunder"
+      },
+      {
+        "icon": "⚡",
+        "stat": "24h",
+        "label": "Svar garanterat"
+      },
+      {
+        "icon": "📅",
+        "stat": "2014",
+        "label": "Grundat"
+      }
     ],
     "ctaTitle": "Redo för din nästa bilaffär?",
     "ctaSubtitle": "Vi hjälper dig oavsett om du vill köpa eller sälja. Kontakta oss idag – svar inom 24 timmar.",
     "ctaPrimaryLabel": "Hitta min bil",
     "ctaPrimaryTo": "/kontakt",
     "ctaSecondaryLabel": "Sälj din bil",
-    "ctaSecondaryTo": "/sälj-bil"
+    "ctaSecondaryTo": "//sell-car"
   },
   "cars": {
     "heroTitleLead": "Våra",

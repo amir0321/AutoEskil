@@ -33,7 +33,7 @@ export default function Footer() {
                                 {col.links && col.links.map(link => (
                                     link.to
                                         ? <Link key={link.label} to={link.to} className={styles.colLink}>{link.label}</Link>
-                                        : <a key={link.label} href={link.href} className={styles.colLink}>{link.label}</a>
+                                        : <a key={link.label} href={link.href} className={styles.colLink} target="_blank" rel="noopener noreferrer">{link.label}</a>
                                 ))}
                                 {col.text && col.text.map(t => (
                                     <p key={t} className={styles.colText}>{t}</p>
