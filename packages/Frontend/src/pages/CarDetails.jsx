@@ -127,6 +127,7 @@ export default function CarDetails() {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [modalImageIndex, setModalImageIndex] = useState(0);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -691,10 +692,40 @@ export default function CarDetails() {
               )}
 
               <h2 className={styles.sectionTitle}>Beskrivning</h2>
-              <p className={styles.description}>
-                {car.description ||
-                  "Ingen beskrivning tillgänglig för denna bil."}
-              </p>
+              <div className={styles.description}>
+                {(showFullDescription || !car.description || car.description.length <= 400
+                  ? car.description || "Ingen beskrivning tillgänglig för denna bil."
+                  : car.description.slice(0, 400) + "..."
+                )
+                  .split("\n")
+                  .map((line, index) => (
+                    <span key={index} style={{ display: "block", minHeight: line.trim() === "" ? "1rem" : "auto", marginBottom: "0.5rem" }}>
+                      {line}
+                    </span>
+                  ))}
+              </div>
+              {car.description && car.description.length > 400 && (
+                <button
+                  type="button"
+                  onClick={() => setShowFullDescription(!showFullDescription)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "var(--accent)",
+                    cursor: "pointer",
+                    padding: "0.5rem 0",
+                    marginTop: "0.2rem",
+                    marginBottom: "1rem",
+                    fontSize: "0.9rem",
+                    fontWeight: "500",
+                    transition: "opacity 0.2s",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.opacity = "0.8")}
+                  onMouseLeave={(e) => (e.target.style.opacity = "1")}
+                >
+                  {showFullDescription ? "⬆ Visa mindre" : "⬇ Visa mer"}
+                </button>
+              )}
 
               {successMessage && (
                 <div className={styles.successMessage}>
