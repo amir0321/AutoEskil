@@ -6,9 +6,9 @@ async function addDealer(db, dealerData) {
 
   try {
     await db.run(
-        `INSERT INTO dealers (id, name, contact_person, email, phone)
+      `INSERT INTO dealers (id, name, contact_person, email, phone)
          VALUES (?, ?, ?, ?, ?)`,
-        [id, name, contact_person, email, phone],
+      [id, name, contact_person, email, phone],
     );
     return { success: true, id };
   } catch (error) {
@@ -24,7 +24,7 @@ async function getAllDealers(db) {
     const cars = await db.all(`
       SELECT c.*,
              (
-               SELECT json_group_array(image_url)
+               SELECT json_agg(image_url)
                FROM (
                       SELECT image_url
                       FROM car_images
@@ -39,17 +39,17 @@ async function getAllDealers(db) {
     // Loopa igenom varje handlare och matcha deras bilar
     const dealersWithCars = dealers.map((dealer) => {
       const dealerCars = cars
-          .filter((car) => car.dealer_id === dealer.id)
-          .map(({ dealer_id, car_images_list, ...carDetails }) => {
-            let images = [];
-            if (car_images_list) {
-              images = JSON.parse(car_images_list).filter((url) => url !== null);
-            }
-            if (images.length === 0 && carDetails.image_url) {
-              images = [carDetails.image_url];
-            }
-            return { ...carDetails, images };
-          });
+        .filter((car) => car.dealer_id === dealer.id)
+        .map(({ dealer_id, car_images_list, ...carDetails }) => {
+          let images = [];
+          if (car_images_list) {
+            images = JSON.parse(car_images_list).filter((url) => url !== null);
+          }
+          if (images.length === 0 && carDetails.image_url) {
+            images = [carDetails.image_url];
+          }
+          return { ...carDetails, images };
+        });
 
       return {
         ...dealer,
@@ -99,7 +99,7 @@ async function updateDealer(db, dealerId, dealerData) {
       `
                 SELECT c.*,
                        (
-                         SELECT json_group_array(image_url)
+                         SELECT json_agg(image_url)
                          FROM (
                            SELECT image_url
                            FROM car_images

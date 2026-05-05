@@ -174,7 +174,7 @@ router.post("/", leadSubmissionLimiter, async (req, res) => {
           `
                     SELECT c.*, 
                            (
-                             SELECT json_group_array(image_url)
+                             SELECT json_agg(image_url)
                              FROM (
                                SELECT image_url
                                FROM car_images

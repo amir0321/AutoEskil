@@ -41,7 +41,11 @@ export async function createSellRequest(db, payload) {
     );
 
     // Insert images if provided
-    if (payload.images && Array.isArray(payload.images) && payload.images.length > 0) {
+    if (
+      payload.images &&
+      Array.isArray(payload.images) &&
+      payload.images.length > 0
+    ) {
       for (const imgUrl of payload.images) {
         await db.run(
           `INSERT INTO sell_request_images (sell_request_id, image_url) VALUES (?, ?)`,
@@ -61,7 +65,7 @@ export async function getAllSellRequests(db) {
   try {
     const rows = await db.all(
       `SELECT sr.*, 
-              json_group_array(sri.image_url) as sell_request_images_list
+              json_agg(sri.image_url) as sell_request_images_list
        FROM sell_requests sr
        LEFT JOIN sell_request_images sri ON sr.id = sri.sell_request_id
        GROUP BY sr.id
@@ -73,7 +77,9 @@ export async function getAllSellRequests(db) {
       data: rows.map((row) => {
         let images = [];
         if (row.sell_request_images_list) {
-          images = JSON.parse(row.sell_request_images_list).filter((url) => url !== null);
+          images = JSON.parse(row.sell_request_images_list).filter(
+            (url) => url !== null,
+          );
         }
         delete row.sell_request_images_list;
         return {
@@ -126,4 +132,3 @@ export async function deleteSellRequest(db, id) {
     return { success: false, error: error.message };
   }
 }
-

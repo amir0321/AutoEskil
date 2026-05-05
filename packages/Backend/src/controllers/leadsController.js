@@ -74,12 +74,12 @@ export async function findMatchingCars(db, leadData) {
   // UPPDATERING: Vi kollar BARA på bil-kriterier nu. Om kunden bara skickat ett
   // meddelande/kontaktinfo returnerar vi direkt en tom lista.
   if (
-      !preferred_brand &&
-      !preferred_model &&
-      !preferred_fuel_type &&
-      !min_year &&
-      !max_mileage &&
-      !max_budget
+    !preferred_brand &&
+    !preferred_model &&
+    !preferred_fuel_type &&
+    !min_year &&
+    !max_mileage &&
+    !max_budget
   ) {
     return [];
   }
@@ -137,8 +137,8 @@ export async function findMatchingCars(db, leadData) {
     const matchingCars = await db.all(query, params);
     // Filtrera bort de som har 0 i poäng och returnera bara ID.
     return matchingCars
-        .filter((car) => car.match_score > 0)
-        .map((car) => car.id);
+      .filter((car) => car.match_score > 0)
+      .map((car) => car.id);
   } catch (error) {
     console.error("Error finding matching cars:", error);
     return [];
@@ -193,7 +193,7 @@ export async function getAllLeads(db) {
     const allMatches = await db.all(`
             SELECT cm.lead_id, c.*,
                    (
-                     SELECT json_group_array(image_url)
+                     SELECT json_agg(image_url)
                      FROM (
                        SELECT image_url
                        FROM car_images

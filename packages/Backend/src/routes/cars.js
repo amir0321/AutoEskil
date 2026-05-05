@@ -41,71 +41,74 @@ const upload = multer({
 
 // SKYDDAD: Endast admin kan lägga till en bil
 router.post(
-    "/",
-    protect,
-    requireRole("admin"),
-    upload.array("images", 10),
-    async (req, res) => {
-      try {
-        const carData = { ...req.body };
-        carData.images = carData.images
-            ? Array.isArray(carData.images)
-                ? carData.images
-                : [carData.images]
-            : [];
+  "/",
+  protect,
+  requireRole("admin"),
+  upload.array("images", 10),
+  async (req, res) => {
+    try {
+      const carData = { ...req.body };
+      carData.images = carData.images
+        ? Array.isArray(carData.images)
+          ? carData.images
+          : [carData.images]
+        : [];
 
-        // SÄKERHETSUPPDATERING: Magic Bytes validering
-        if (req.files && req.files.length > 0) {
-          // 1. Verifiera att alla filer är äkta bilder
-          for (const file of req.files) {
-            const meta = await fileTypeFromFile(file.path);
+      // SÄKERHETSUPPDATERING: Magic Bytes validering
+      if (req.files && req.files.length > 0) {
+        // 1. Verifiera att alla filer är äkta bilder
+        for (const file of req.files) {
+          const meta = await fileTypeFromFile(file.path);
 
-            if (!meta || !meta.mime.startsWith("image/")) {
-              console.warn(`Säkerhetsvarning: Fejkad fil blockerad vid biltillägg (${file.originalname})`);
+          if (!meta || !meta.mime.startsWith("image/")) {
+            console.warn(
+              `Säkerhetsvarning: Fejkad fil blockerad vid biltillägg (${file.originalname})`,
+            );
 
-              // Städa upp filer från disken
-              for (const f of req.files) {
-                await fsPromises.unlink(f.path).catch(() => {});
-              }
-
-              return res.status(400).json({
-                error: "Säkerhetsfel: En eller flera filer är inte riktiga bilder.",
-              });
+            // Städa upp filer från disken
+            for (const f of req.files) {
+              await fsPromises.unlink(f.path).catch(() => {});
             }
-          }
 
-          // 2. Ladda upp till Cloudinary om valideringen passerar
-          const uploadPromises = req.files.map((file) => uploadImage(file.path));
-          const uploadedUrls = await Promise.all(uploadPromises);
-          carData.images = [...carData.images, ...uploadedUrls];
-
-          // 3. Städa upp de lokala filerna efter uppladdning
-          for (const file of req.files) {
-            await fsPromises.unlink(file.path).catch(() => {});
+            return res.status(400).json({
+              error:
+                "Säkerhetsfel: En eller flera filer är inte riktiga bilder.",
+            });
           }
         }
 
-        const result = await addCar(req.db, carData);
-        if (result.success) {
-          res.status(201).json({
-            message: "Bil tillagd!",
-            carId: result.carId,
-            listingId: result.listingId,
-          });
-        } else {
-          res.status(400).json({ error: result.error });
+        // 2. Ladda upp till Cloudinary om valideringen passerar
+        const uploadPromises = req.files.map((file) => uploadImage(file.path));
+        const uploadedUrls = await Promise.all(uploadPromises);
+        carData.images = [...carData.images, ...uploadedUrls];
+
+        // 3. Städa upp de lokala filerna efter uppladdning
+        for (const file of req.files) {
+          await fsPromises.unlink(file.path).catch(() => {});
         }
-      } catch (error) {
-        console.error("Error in POST /cars:", error);
-        // Fallback-städning vid oväntade fel
-        if (req.files) {
-          for (const file of req.files) {
-            await fsPromises.unlink(file.path).catch(() => {});
-          }
-        }
-        res.status(500).json({ error: INTERNAL_ERROR_MESSAGE });
       }
-    },
+
+      const result = await addCar(req.db, carData);
+      if (result.success) {
+        res.status(201).json({
+          message: "Bil tillagd!",
+          carId: result.carId,
+          listingId: result.listingId,
+        });
+      } else {
+        res.status(400).json({ error: result.error });
+      }
+    } catch (error) {
+      console.error("Error in POST /cars:", error);
+      // Fallback-städning vid oväntade fel
+      if (req.files) {
+        for (const file of req.files) {
+          await fsPromises.unlink(file.path).catch(() => {});
+        }
+      }
+      res.status(500).json({ error: INTERNAL_ERROR_MESSAGE });
+    }
+  },
 );
 
 // PUBLIK: Alla kan se listan med bilar
@@ -114,7 +117,7 @@ router.get("/", async (req, res) => {
     const cars = await req.db.all(`
       SELECT c.*,
              (
-               SELECT json_group_array(image_url)
+               SELECT json_agg(image_url)
                FROM (
                       SELECT image_url
                       FROM car_images
@@ -172,7 +175,7 @@ router.get("/:id", async (req, res) => {
                    d.email as dealer_email,
                    d.phone as dealer_phone,
                    (
-                     SELECT json_group_array(image_url)
+                     SELECT json_agg(image_url)
                      FROM (
                        SELECT image_url
                        FROM car_images
@@ -241,69 +244,72 @@ router.get("/:id", async (req, res) => {
 
 // SKYDDAD: Endast admin kan uppdatera en bil
 router.put(
-    "/:id",
-    protect,
-    requireRole("admin"),
-    upload.array("images", 10),
-    async (req, res) => {
-      try {
-        const carData = { ...req.body };
-        if (carData.images) {
-          carData.images = Array.isArray(carData.images)
-              ? carData.images
-              : [carData.images];
-        } else {
-          carData.images = [];
-        }
-
-        // SÄKERHETSUPPDATERING: Magic Bytes validering
-        if (req.files && req.files.length > 0) {
-          // 1. Verifiera att alla filer är äkta bilder
-          for (const file of req.files) {
-            const meta = await fileTypeFromFile(file.path);
-
-            if (!meta || !meta.mime.startsWith("image/")) {
-              console.warn(`Säkerhetsvarning: Fejkad fil blockerad vid biluppdatering (${file.originalname})`);
-
-              // Städa upp filer från disken
-              for (const f of req.files) {
-                await fsPromises.unlink(f.path).catch(() => {});
-              }
-
-              return res.status(400).json({
-                error: "Säkerhetsfel: En eller flera filer är inte riktiga bilder.",
-              });
-            }
-          }
-
-          // 2. Ladda upp till Cloudinary om valideringen passerar
-          const uploadPromises = req.files.map((file) => uploadImage(file.path));
-          const uploadedUrls = await Promise.all(uploadPromises);
-          carData.images = [...carData.images, ...uploadedUrls];
-
-          // 3. Städa upp de lokala filerna efter uppladdning
-          for (const file of req.files) {
-            await fsPromises.unlink(file.path).catch(() => {});
-          }
-        }
-
-        const result = await updateCar(req.db, req.params.id, carData);
-        if (result.success) {
-          res.json({ message: "Bil uppdaterad." });
-        } else {
-          res.status(404).json({ error: result.error });
-        }
-      } catch (error) {
-        console.error("Error in PUT /cars/:id:", error);
-        // Fallback-städning vid oväntade fel
-        if (req.files) {
-          for (const file of req.files) {
-            await fsPromises.unlink(file.path).catch(() => {});
-          }
-        }
-        res.status(500).json({ error: INTERNAL_ERROR_MESSAGE });
+  "/:id",
+  protect,
+  requireRole("admin"),
+  upload.array("images", 10),
+  async (req, res) => {
+    try {
+      const carData = { ...req.body };
+      if (carData.images) {
+        carData.images = Array.isArray(carData.images)
+          ? carData.images
+          : [carData.images];
+      } else {
+        carData.images = [];
       }
-    },
+
+      // SÄKERHETSUPPDATERING: Magic Bytes validering
+      if (req.files && req.files.length > 0) {
+        // 1. Verifiera att alla filer är äkta bilder
+        for (const file of req.files) {
+          const meta = await fileTypeFromFile(file.path);
+
+          if (!meta || !meta.mime.startsWith("image/")) {
+            console.warn(
+              `Säkerhetsvarning: Fejkad fil blockerad vid biluppdatering (${file.originalname})`,
+            );
+
+            // Städa upp filer från disken
+            for (const f of req.files) {
+              await fsPromises.unlink(f.path).catch(() => {});
+            }
+
+            return res.status(400).json({
+              error:
+                "Säkerhetsfel: En eller flera filer är inte riktiga bilder.",
+            });
+          }
+        }
+
+        // 2. Ladda upp till Cloudinary om valideringen passerar
+        const uploadPromises = req.files.map((file) => uploadImage(file.path));
+        const uploadedUrls = await Promise.all(uploadPromises);
+        carData.images = [...carData.images, ...uploadedUrls];
+
+        // 3. Städa upp de lokala filerna efter uppladdning
+        for (const file of req.files) {
+          await fsPromises.unlink(file.path).catch(() => {});
+        }
+      }
+
+      const result = await updateCar(req.db, req.params.id, carData);
+      if (result.success) {
+        res.json({ message: "Bil uppdaterad." });
+      } else {
+        res.status(404).json({ error: result.error });
+      }
+    } catch (error) {
+      console.error("Error in PUT /cars/:id:", error);
+      // Fallback-städning vid oväntade fel
+      if (req.files) {
+        for (const file of req.files) {
+          await fsPromises.unlink(file.path).catch(() => {});
+        }
+      }
+      res.status(500).json({ error: INTERNAL_ERROR_MESSAGE });
+    }
+  },
 );
 
 // SKYDDAD: Endast admin kan ta bort en bil
