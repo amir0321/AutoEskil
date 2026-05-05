@@ -1,7 +1,5 @@
 export async function verifyRecaptcha(token) {
-  const secretKey =
-    process.env.RECAPTCHA_SECRET_KEY ||
-    "6Ld5d9osAAAAAB8xgOZ-M6BMBPjPS6JeSz0gqYzz";
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
   if (!token) {
     return false;
