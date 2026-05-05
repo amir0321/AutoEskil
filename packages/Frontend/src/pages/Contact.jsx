@@ -4,6 +4,8 @@ import CarCard from "../components/CarCard"; // Importera CarCard
 import { apiUrl } from "../utils/api";
 import content from "../content/siteContent.json";
 import { setPageSeo } from "../utils/seo";
+import ReCAPTCHA from "react-google-recaptcha";
+import { RECAPTCHA_SITE_KEY } from "../utils/recaptcha";
 
 export const route = {
   path: "/kontakt",
@@ -35,6 +37,7 @@ export default function Contact() {
   const [error, setError] = useState("");
   const [matches, setMatches] = useState([]);
   const [showAllMatches, setShowAllMatches] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   useEffect(() => {
     setPageSeo({
@@ -53,6 +56,10 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!recaptchaToken) {
+      setError("Vänligen bekräfta att du inte är en robot.");
+      return;
+    }
     setLoading(true);
     setError("");
 
@@ -74,6 +81,7 @@ export default function Contact() {
       form_started_at: formStartedAt,
       source: "contact",
       requirements: form.requirements, // Vi skickar alltid med texten så admin ser den
+      recaptchaToken: recaptchaToken,
     };
 
     // Lägg bara till dessa i payload om användaren faktiskt fyllt i dem
@@ -418,6 +426,13 @@ export default function Contact() {
                     onChange={handleChange}
                     rows="3"
                     placeholder={content.contact.form.placeholders.requirements}
+                  />
+                </div>
+
+                <div className="form-group" style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                  <ReCAPTCHA
+                    sitekey={RECAPTCHA_SITE_KEY}
+                    onChange={(token) => setRecaptchaToken(token)}
                   />
                 </div>
 

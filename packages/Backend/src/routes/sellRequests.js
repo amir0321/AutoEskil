@@ -7,6 +7,7 @@ import { fileTypeFromFile } from "file-type";
 import fsPromises from "fs/promises";
 import { createSellRequest } from "../controllers/sellRequestsController.js";
 import { uploadImage } from "../services/imageService.js";
+import { verifyRecaptcha } from "../utils/recaptcha.js";
 
 const router = express.Router();
 const MIN_FORM_FILL_TIME_MS = 2000;
@@ -183,6 +184,13 @@ router.post("/", sellRequestLimiter, upload.array("images", 10), async (req, res
     return res.status(400).json({
       error: "Formularet kunde inte valideras.",
     });
+  }
+
+  const token = req.body.recaptchaToken;
+  const isHuman = await verifyRecaptcha(token);
+  
+  if (!isHuman) {
+    return res.status(400).json({ error: "reCAPTCHA-validering misslyckades. Är du en robot?" });
   }
 
   try {

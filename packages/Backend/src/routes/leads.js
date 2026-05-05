@@ -5,6 +5,7 @@ import {
   findMatchingCars,
   createCarMatches,
 } from "../controllers/leadsController.js";
+import { verifyRecaptcha } from "../utils/recaptcha.js";
 
 const router = express.Router();
 const INTERNAL_ERROR_MESSAGE = "Internal server error";
@@ -126,6 +127,13 @@ router.post("/", leadSubmissionLimiter, async (req, res) => {
 
   if (!isTrustedRequest && hasSuspiciousPayload(leadData)) {
     return res.status(400).json({ error: "Formuläret kunde inte valideras." });
+  }
+
+  const token = req.body.recaptchaToken;
+  const isHuman = await verifyRecaptcha(token);
+  
+  if (!isHuman) {
+    return res.status(400).json({ error: "reCAPTCHA-validering misslyckades. Är du en robot?" });
   }
 
   try {

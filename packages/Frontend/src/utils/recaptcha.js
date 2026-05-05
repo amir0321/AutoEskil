@@ -1,0 +1,1 @@
+export const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6Ld5d9osAAAAACwx2f3Rk38kANQP_D5H-wP2inRr";

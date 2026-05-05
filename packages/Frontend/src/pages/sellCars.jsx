@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { apiUrl } from "../utils/api";
 import content from "../content/siteContent.json";
 import { setPageSeo } from "../utils/seo";
+import ReCAPTCHA from "react-google-recaptcha";
+import { RECAPTCHA_SITE_KEY } from "../utils/recaptcha";
 
 export const route = {
   path: "/sell-car",
@@ -35,6 +37,7 @@ export default function SellCars() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [yearError, setYearError] = useState("");
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   useEffect(() => {
     setPageSeo({
@@ -262,6 +265,10 @@ export default function SellCars() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!recaptchaToken) {
+      setError("Vänligen bekräfta att du inte är en robot.");
+      return;
+    }
     setError("");
     setSuccess("");
     setLoading(true);
@@ -285,6 +292,7 @@ export default function SellCars() {
       formData.append("damage_details", form.damage_details);
     if (form.condition_notes)
       formData.append("condition_notes", form.condition_notes);
+    formData.append("recaptchaToken", recaptchaToken);
 
     // Add image files
     imageFiles.forEach((file) => {
@@ -683,6 +691,13 @@ export default function SellCars() {
             ))}
           </div>
         )}
+
+        <div className="form-group" style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
+          <ReCAPTCHA
+            sitekey={RECAPTCHA_SITE_KEY}
+            onChange={(token) => setRecaptchaToken(token)}
+          />
+        </div>
 
         <button
           className="btn-primary sellCarsSubmit"
