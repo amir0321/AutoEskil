@@ -131,6 +131,7 @@ router.post("/", leadSubmissionLimiter, async (req, res) => {
   try {
     if (!isTrustedRequest) {
       const duplicateWindowMinutes = 10;
+      const thresholdDate = new Date(Date.now() - duplicateWindowMinutes * 60 * 1000).toISOString();
       const duplicateLead = await db.get(
         `
           SELECT id
@@ -138,14 +139,14 @@ router.post("/", leadSubmissionLimiter, async (req, res) => {
           WHERE customer_email = ?
             AND customer_phone = ?
             AND source = ?
-            AND created_at >= datetime('now', ?)
+            AND created_at >= ?
           LIMIT 1
         `,
         [
           leadData.customer_email,
           leadData.customer_phone,
           leadData.source,
-          `-${duplicateWindowMinutes} minutes`,
+          thresholdDate,
         ],
       );
 

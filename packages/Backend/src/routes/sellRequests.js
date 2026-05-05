@@ -188,6 +188,7 @@ router.post("/", sellRequestLimiter, upload.array("images", 10), async (req, res
   try {
     if (!isTrustedRequest) {
       const duplicateWindowMinutes = 15;
+      const thresholdDate = new Date(Date.now() - duplicateWindowMinutes * 60 * 1000).toISOString();
       const duplicate = await db.get(
         `
           SELECT id
@@ -195,14 +196,14 @@ router.post("/", sellRequestLimiter, upload.array("images", 10), async (req, res
           WHERE seller_email = ?
             AND seller_phone = ?
             AND reg_number = ?
-            AND created_at >= datetime('now', ?)
+            AND created_at >= ?
           LIMIT 1
         `,
         [
           payload.seller_email,
           payload.seller_phone,
           payload.reg_number,
-          `-${duplicateWindowMinutes} minutes`,
+          thresholdDate,
         ],
       );
 
