@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import styles from './InterestedModal.module.css';
 import { apiUrl } from '../utils/api';
-import ReCAPTCHA from "react-google-recaptcha";
-import { RECAPTCHA_SITE_KEY } from "../utils/recaptcha";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function InterestedModal({ carId, carBrand, carModel, onClose, onSuccess }) {
     const [formData, setFormData] = useState({
@@ -17,7 +16,7 @@ export default function InterestedModal({ carId, carBrand, carModel, onClose, on
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [formErrors, setFormErrors] = useState({});
-    const [recaptchaToken, setRecaptchaToken] = useState('');
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const validateForm = () => {
         const errors = {};
@@ -46,13 +45,21 @@ export default function InterestedModal({ carId, carBrand, carModel, onClose, on
             setError('');
             return;
         }
-        if (!recaptchaToken) {
-            setError("Vänligen bekräfta att du inte är en robot.");
+        if (!executeRecaptcha) {
+            setError("reCAPTCHA är inte redo. Försök igen om ett ögonblick.");
             return;
         }
         setFormErrors({});
         setError('');
         setLoading(true);
+        let recaptchaToken;
+        try {
+            recaptchaToken = await executeRecaptcha("interested_form");
+        } catch {
+            setError("reCAPTCHA-verifiering misslyckades. Försök igen.");
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await fetch(apiUrl('/api/leads'), {
@@ -176,13 +183,6 @@ export default function InterestedModal({ carId, carBrand, carModel, onClose, on
                             onChange={handleChange}
                             placeholder="Säg något om intresset eller dina frågor..."
                             rows="3"
-                        />
-                    </div>
-
-                    <div className={styles.formGroup} style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
-                        <ReCAPTCHA
-                            sitekey={RECAPTCHA_SITE_KEY}
-                            onChange={(token) => setRecaptchaToken(token)}
                         />
                     </div>
 

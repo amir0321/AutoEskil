@@ -4,8 +4,7 @@ import CarCard from "../components/CarCard"; // Importera CarCard
 import { apiUrl } from "../utils/api";
 import content from "../content/siteContent.json";
 import { setPageSeo } from "../utils/seo";
-import ReCAPTCHA from "react-google-recaptcha";
-import { RECAPTCHA_SITE_KEY } from "../utils/recaptcha";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export const route = {
   path: "/kontakt",
@@ -37,7 +36,7 @@ export default function Contact() {
   const [error, setError] = useState("");
   const [matches, setMatches] = useState([]);
   const [showAllMatches, setShowAllMatches] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState("");
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   useEffect(() => {
     setPageSeo({
@@ -56,12 +55,20 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!recaptchaToken) {
-      setError("Vänligen bekräfta att du inte är en robot.");
+    if (!executeRecaptcha) {
+      setError("reCAPTCHA är inte redo. Försök igen om ett ögonblick.");
       return;
     }
     setLoading(true);
     setError("");
+    let recaptchaToken;
+    try {
+      recaptchaToken = await executeRecaptcha("contact_form");
+    } catch {
+      setError("reCAPTCHA-verifiering misslyckades. Försök igen.");
+      setLoading(false);
+      return;
+    }
 
     // 1. Kontrollera om det finns några "riktiga" sökfilter
     const hasSearchFilters =
@@ -426,13 +433,6 @@ export default function Contact() {
                     onChange={handleChange}
                     rows="3"
                     placeholder={content.contact.form.placeholders.requirements}
-                  />
-                </div>
-
-                <div className="form-group" style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
-                  <ReCAPTCHA
-                    sitekey={RECAPTCHA_SITE_KEY}
-                    onChange={(token) => setRecaptchaToken(token)}
                   />
                 </div>
 
