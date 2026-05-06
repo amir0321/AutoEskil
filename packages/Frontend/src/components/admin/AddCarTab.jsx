@@ -114,7 +114,7 @@ export default function AddCarTab({ dealers }) {
     range_wltp: "",
     description: "",
     equipment: [],
-    location: "Eskilstuna",
+    location: "",
     weight: "",
     fuel_consumption: "",
     number_of_owners: "",
@@ -366,7 +366,7 @@ export default function AddCarTab({ dealers }) {
           range_wltp: "",
           description: "",
           equipment: [],
-          location: "Eskilstuna",
+          location: "",
           weight: "",
           fuel_consumption: "",
           number_of_owners: "",
@@ -688,16 +688,15 @@ export default function AddCarTab({ dealers }) {
 
           <div className="grid-2">
             <div className="form-group">
-              <label>Plats</label>
-              <select
+              <label>Plats (Stad)</label>
+              <input
+                type="text"
                 name="location"
                 className="form-control"
                 value={formData.location}
                 onChange={handleChange}
-              >
-                <option value="Eskilstuna">Eskilstuna</option>
-                <option value="Strängnäs">Strängnäs</option>
-              </select>
+                placeholder="T.ex. Eskilstuna"
+              />
             </div>
             <div className="form-group">
               <label>Vikt (kg)</label>

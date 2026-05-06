@@ -628,16 +628,15 @@ export default function EditCarModal({ car, onClose, onCarUpdated }) {
 
           <div className="grid-2">
             <div className="form-group">
-              <label>Plats</label>
-              <select
+              <label>Plats (Stad)</label>
+              <input
+                type="text"
                 name="location"
                 className="form-control"
-                value={formData.location || "Eskilstuna"}
+                value={formData.location || ""}
                 onChange={handleChange}
-              >
-                <option value="Eskilstuna">Eskilstuna</option>
-                <option value="Strängnäs">Strängnäs</option>
-              </select>
+                placeholder="T.ex. Eskilstuna"
+              />
             </div>
             <div className="form-group">
               <label>Vikt (kg)</label>
