@@ -15,10 +15,16 @@ export default function LeadsTab() {
     const [activeTab, setActiveTab] = useState('active'); // 'active' eller 'confirmed'
     const [actionMessage, setActionMessage] = useState('');
     const [actionError, setActionError] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const filteredLeads = useMemo(() => {
-        return leads.filter(l => l.status === activeTab);
-    }, [leads, activeTab]);
+        const q = searchQuery.toLowerCase();
+        return leads.filter(l => l.status === activeTab).filter(l =>
+            (l.customer_email || '').toLowerCase().includes(q) ||
+            (l.customer_name || '').toLowerCase().includes(q) ||
+            (l.customer_phone || '').toLowerCase().includes(q)
+        );
+    }, [leads, activeTab, searchQuery]);
 
     useEffect(() => {
         let isMounted = true;
@@ -123,26 +129,43 @@ export default function LeadsTab() {
                 </button>
             </div>
 
+            {/* Sökfält */}
+            <div className={styles.searchWrapper}>
+                <input
+                    type="text"
+                    className={styles.searchInput}
+                    placeholder="Sök på namn, e-post eller telefon..."
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                    <button className={styles.searchClear} onClick={() => setSearchQuery('')}>✕</button>
+                )}
+            </div>
+
             {filteredLeads.length === 0 ? (
                 <div className={styles.emptyText}>
-                    {activeTab === 'active' ? 'Inga aktiva leads' : 'Inga bekräftade leads'}
+                    {searchQuery
+                        ? `Inga leads matchar "${searchQuery}"`
+                        : activeTab === 'active' ? 'Inga aktiva leads' : 'Inga bekräftade leads'
+                    }
                 </div>
             ) : (
                 <div className={styles.leadsList}>
-            {pendingDelete && (
-                <DeleteConfirmModal
-                    title={content.leadsTab.deleteModal.title}
-                    message={content.leadsTab.deleteModal.message}
-                    confirmText={content.leadsTab.deleteModal.confirm}
-                    cancelText={content.leadsTab.deleteModal.cancel}
-                    onClose={() => setPendingDelete(null)}
-                    onConfirm={async () => {
-                        const item = pendingDelete;
-                        setPendingDelete(null);
-                        await handleDelete(item.id);
-                    }}
-                />
-            )}
+                    {pendingDelete && (
+                        <DeleteConfirmModal
+                            title={content.leadsTab.deleteModal.title}
+                            message={content.leadsTab.deleteModal.message}
+                            confirmText={content.leadsTab.deleteModal.confirm}
+                            cancelText={content.leadsTab.deleteModal.cancel}
+                            onClose={() => setPendingDelete(null)}
+                            onConfirm={async () => {
+                                const item = pendingDelete;
+                                setPendingDelete(null);
+                                await handleDelete(item.id);
+                            }}
+                        />
+                    )}
 
                     {filteredLeads.map(lead => {
                         // 1. Kolla om leadet har några faktiska bilspecifikationer
@@ -244,7 +267,7 @@ export default function LeadsTab() {
                             </div>
                         );
                     })}
-            </div>
+                </div>
             )}
         </div>
     );

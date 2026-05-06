@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Check, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, Trash2, ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 import styles from '../../pages/Admin.module.css';
 import DeleteConfirmModal from '../DeleteConfirmModal';
 import { CardLoadingSkeleton } from '../LoadingSkeleton';
@@ -16,10 +16,21 @@ export default function SellRequestsTab() {
     const [sortedImages, setSortedImages] = useState({});
     const [draggedIndex, setDraggedIndex] = useState({});
     const [dragOverIndex, setDragOverIndex] = useState({});
+    const [searchQuery, setSearchQuery] = useState('');
 
     const filteredRequests = useMemo(() => {
-        return requests.filter((item) => item.status === activeTab);
-    }, [requests, activeTab]);
+        const byTab = requests.filter((item) => item.status === activeTab);
+        if (!searchQuery.trim()) return byTab;
+        const q = searchQuery.toLowerCase();
+        return byTab.filter(item =>
+            (item.seller_name || '').toLowerCase().includes(q) ||
+            (item.seller_email || '').toLowerCase().includes(q) ||
+            (item.seller_phone || '').toLowerCase().includes(q) ||
+            (item.reg_number || '').toLowerCase().includes(q) ||
+            (item.car_brand || '').toLowerCase().includes(q) ||
+            (item.car_model || '').toLowerCase().includes(q)
+        );
+    }, [requests, activeTab, searchQuery]);
 
     useEffect(() => {
         let isMounted = true;
@@ -202,6 +213,25 @@ export default function SellRequestsTab() {
                 </button>
             </div>
 
+            {/* Sökfält */}
+            <div className={styles.filterBar}>
+                <div className={styles.filterInput}>
+                    <Search size={16} className={styles.filterInputIcon} />
+                    <input
+                        type="text"
+                        placeholder="Sök på namn, e-post, telefon, reg.nr eller bilmärke..."
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                    />
+                </div>
+                {searchQuery && (
+                    <button className={styles.clearButton} onClick={() => setSearchQuery('')}>
+                        <X size={16} style={{ marginRight: '0.3rem' }} />
+                        Rensa
+                    </button>
+                )}
+            </div>
+
             {pendingDelete && (
                 <DeleteConfirmModal
                     title="Ta bort säljförfrågan?"
@@ -219,7 +249,9 @@ export default function SellRequestsTab() {
 
             {filteredRequests.length === 0 ? (
                 <div className={styles.emptyText}>
-                    {activeTab === 'active'
+                    {searchQuery
+                        ? `Inga säljförfrågningar matchar "${searchQuery}"`
+                        : activeTab === 'active'
                         ? 'Inga aktiva säljförfrågningar.'
                         : 'Inga bekräftade säljförfrågningar.'}
                 </div>

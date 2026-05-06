@@ -11,10 +11,12 @@ const router = express.Router();
 const secret = process.env.API_SECRET_KEY;
 const authCookieName = "admin_token";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const cookieOptions = {
   httpOnly: true,
-  sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
-  secure: process.env.NODE_ENV === "production" ? true : true,
+  sameSite: isProduction ? "lax" : "lax",
+  secure: isProduction ? true : false,  // false på HTTP lokalt
   maxAge: 60 * 60 * 1000,
 };
 
@@ -66,8 +68,8 @@ router.post("/login", loginLimiter, async (req, res) => {
 router.post("/logout", (req, res) => {
   res.clearCookie(authCookieName, {
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
-    secure: process.env.NODE_ENV === "production" ? true : true,
+    sameSite: isProduction ? "lax" : "lax",
+    secure: isProduction ? true : false,
     path: "/",
   });
   res.json({ message: "Logout successful" });

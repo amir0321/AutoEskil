@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from '../../pages/Admin.module.css';
 import MessageModal from '../MessageModal';
 import DeleteConfirmModal from '../DeleteConfirmModal';
-import { Plus, Trash2, ChevronDown, ChevronUp, Edit as EditIcon, Save, X } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp, Edit as EditIcon, Save, X, Search } from 'lucide-react';
 import { CardLoadingSkeleton } from '../LoadingSkeleton';
 import { adminFetch } from '../../utils/api';
 import content from '../../content/siteContent.json';
@@ -21,6 +21,18 @@ export default function DealersTab({ onDealerAdded, onDealerDeleted }) {
     const [pendingDelete, setPendingDelete] = useState(null);
     const [editingDealerId, setEditingDealerId] = useState(null);
     const [editingDealerForm, setEditingDealerForm] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredDealers = useMemo(() => {
+        if (!searchQuery.trim()) return dealers;
+        const q = searchQuery.toLowerCase();
+        return dealers.filter(d =>
+            (d.name || '').toLowerCase().includes(q) ||
+            (d.contact_person || '').toLowerCase().includes(q) ||
+            (d.email || '').toLowerCase().includes(q) ||
+            (d.phone || '').toLowerCase().includes(q)
+        );
+    }, [dealers, searchQuery]);
 
     useEffect(() => {
         let isMounted = true;
@@ -256,13 +268,36 @@ export default function DealersTab({ onDealerAdded, onDealerDeleted }) {
                 </div>
             )}
 
+            {/* Sökfält */}
+            {!loading && dealers.length > 0 && (
+                <div className={styles.filterBar}>
+                    <div className={styles.filterInput}>
+                        <Search size={16} className={styles.filterInputIcon} />
+                        <input
+                            type="text"
+                            placeholder="Sök på namn, kontakt, e-post eller telefon..."
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                        />
+                    </div>
+                    {searchQuery && (
+                        <button className={styles.clearButton} onClick={() => setSearchQuery('')}>
+                            <X size={16} style={{ marginRight: '0.3rem' }} />
+                            Rensa
+                        </button>
+                    )}
+                </div>
+            )}
+
             {loading ? (
                 <CardLoadingSkeleton count={3} />
             ) : dealers.length === 0 ? (
                 <div className={styles.emptyText}>{content.dealersTab.messages.empty}</div>
+            ) : filteredDealers.length === 0 ? (
+                <div className={styles.emptyText}>Inga handlare matchar "{searchQuery}"</div>
             ) : (
                 <div className={styles.dealerList}>
-                    {dealers.map(dealer => (
+                    {filteredDealers.map(dealer => (
                         <div 
                             key={dealer.id} 
                             className={`glass-card ${styles.dealerCard} ${editingDealerId === dealer.id ? styles.dealerEditMode : ''}`}

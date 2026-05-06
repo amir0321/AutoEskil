@@ -18,5 +18,8 @@
     "frontend:preview": "npm --prefix packages/Frontend run preview",
     "build": "npm --prefix packages/Frontend run build",
     "start": "node packages/Backend/server.js"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.7.2"
   }
 }
