@@ -264,10 +264,52 @@ button:not(:disabled) {
 select.form-control {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230062cc' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 2.5rem;
+  color-scheme: dark;
+}
+
+select.form-control:hover {
+  border-color: var(--accent);
+}
+
+/* Stilätter för dropdown-menyns options (stöds i Chromium-baserade webblasäre) */
+select option {
+  background-color: #1a1a1a;
+  color: var(--text-main);
+  padding: 0.5rem;
+}
+
+select optgroup {
+  background-color: #111111;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Mörkt tema för datumväljare */
+input[type="date"].form-control,
+input[type="datetime-local"].form-control,
+input[type="time"].form-control,
+input[type="month"].form-control {
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+input[type="date"].form-control::-webkit-calendar-picker-indicator,
+input[type="datetime-local"].form-control::-webkit-calendar-picker-indicator {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(190deg);
+  cursor: pointer;
+  opacity: 0.8;
+  border-radius: 4px;
+  padding: 2px;
+  transition: opacity 0.2s;
+}
+
+input[type="date"].form-control::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"].form-control::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 textarea.form-control {
