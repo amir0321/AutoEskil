@@ -7,8 +7,12 @@ import content from "../../content/siteContent.json";
 const EQUIPMENT_OPTIONS = [
   // Säkerhet & Assistans
   "ABS-bromsar",
+  "ABS",
   "ACC (Klimatanläggning)",
+  "Aircondition",
+  "Klimatanläggning",
   "Adaptiv farthållare",
+  "Farthållare",
   "Antisladdsystem (ESC/ESP)",
   "Antispinn",
   "Autobroms (AEB)",
@@ -23,6 +27,9 @@ const EQUIPMENT_OPTIONS = [
   "Regnsensor",
   "Sidoairbags",
   "Trötthetsvarnare",
+  "Larm",
+  "Startspärr",
+  "Airbag fram",
 
   // Belysning & Exteriör
   "Aluminiumfälgar",
@@ -39,6 +46,7 @@ const EQUIPMENT_OPTIONS = [
   "Ambient belysning",
   "Digitalt mätarhus",
   "Elhissar (fram & bak)",
+  "Elektriska fönster",
   "Elstol förare (med minne)",
   "Head-up display",
   "Keyless Nyckelfri Start",
@@ -47,6 +55,14 @@ const EQUIPMENT_OPTIONS = [
   "Rattvärme",
   "Sätesvärme (bak)",
   "Sätesvärme (fram)",
+  "Uppvärmda säten, fram",
+  "El-sidospeglar m. värme",
+  "Servostyrning",
+  "Fällbart baksäte",
+  "Centrallås",
+  "Färddator",
+  "12V-uttag",
+  "Justerbart svankstöd",
 
   // Infotainment & Teknik
   "Android Auto",
@@ -57,6 +73,7 @@ const EQUIPMENT_OPTIONS = [
   "Pekskärm",
   "Trådlös mobilladdning",
   "USB-uttag",
+  "CD-spelare",
 
   // Drivlina & Specifikt
   "Euro 6 (miljöklass)",
@@ -97,6 +114,11 @@ export default function AddCarTab({ dealers }) {
     range_wltp: "",
     description: "",
     equipment: [],
+    location: "Eskilstuna",
+    weight: "",
+    fuel_consumption: "",
+    number_of_owners: "",
+    next_inspection_date: "",
   });
   const [images, setImages] = useState([]);
   const fileInputRef = useRef(null);
@@ -344,6 +366,11 @@ export default function AddCarTab({ dealers }) {
           range_wltp: "",
           description: "",
           equipment: [],
+          location: "Eskilstuna",
+          weight: "",
+          fuel_consumption: "",
+          number_of_owners: "",
+          next_inspection_date: "",
         }));
         setImages([]);
         setImagePreviews([]);
@@ -656,6 +683,76 @@ export default function AddCarTab({ dealers }) {
                 placeholder="T.ex. 520"
                 min="0"
               />
+            </div>
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label>Plats</label>
+              <select
+                name="location"
+                className="form-control"
+                value={formData.location}
+                onChange={handleChange}
+              >
+                <option value="Eskilstuna">Eskilstuna</option>
+                <option value="Strängnäs">Strängnäs</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Vikt (kg)</label>
+              <input
+                type="number"
+                name="weight"
+                className="form-control"
+                value={formData.weight}
+                onChange={handleChange}
+                placeholder="T.ex. 1500"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label>Bränsleförbrukning (l/100km)</label>
+              <input
+                type="text"
+                name="fuel_consumption"
+                className="form-control"
+                value={formData.fuel_consumption}
+                onChange={handleChange}
+                placeholder="T.ex. 0.5"
+                inputMode="decimal"
+              />
+            </div>
+            <div className="form-group">
+              <label>Antal ägare</label>
+              <input
+                type="number"
+                name="number_of_owners"
+                className="form-control"
+                value={formData.number_of_owners}
+                onChange={handleChange}
+                placeholder="T.ex. 2"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label>Nästa besiktningsdatum</label>
+              <input
+                type="date"
+                name="next_inspection_date"
+                className="form-control"
+                value={formData.next_inspection_date}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              {/* Tom div för att fylla ut grid om det behövs */}
             </div>
           </div>
 

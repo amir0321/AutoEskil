@@ -73,6 +73,17 @@ const EQUIPMENT_OPTIONS = [
   "Mörk tonade bakrutor",
   "Sätesvärme bak",
   "Sätesvärme fram",
+  "Aircondition",
+  "Farthållare",
+  "Uppvärmda säten, fram",
+  "Fällbart baksäte",
+  "12V-uttag",
+  "Justerbart svankstöd",
+  "Klimatanläggning",
+  "CD-spelare",
+  "Elektriska fönster",
+  "El-sidospeglar m. värme",
+  "ESC"
 ].sort();
 
 export default function EditCarModal({ car, onClose, onCarUpdated }) {
@@ -612,6 +623,76 @@ export default function EditCarModal({ car, onClose, onCarUpdated }) {
                 placeholder="T.ex. 520"
                 min="0"
               />
+            </div>
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label>Plats</label>
+              <select
+                name="location"
+                className="form-control"
+                value={formData.location || "Eskilstuna"}
+                onChange={handleChange}
+              >
+                <option value="Eskilstuna">Eskilstuna</option>
+                <option value="Strängnäs">Strängnäs</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Vikt (kg)</label>
+              <input
+                type="number"
+                name="weight"
+                className="form-control"
+                value={formData.weight || ""}
+                onChange={handleChange}
+                placeholder="T.ex. 1500"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label>Bränsleförbrukning (l/100km)</label>
+              <input
+                type="text"
+                name="fuel_consumption"
+                className="form-control"
+                value={formData.fuel_consumption || ""}
+                onChange={handleChange}
+                placeholder="T.ex. 0.5"
+                inputMode="decimal"
+              />
+            </div>
+            <div className="form-group">
+              <label>Antal ägare</label>
+              <input
+                type="number"
+                name="number_of_owners"
+                className="form-control"
+                value={formData.number_of_owners || ""}
+                onChange={handleChange}
+                placeholder="T.ex. 2"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label>Nästa besiktningsdatum</label>
+              <input
+                type="date"
+                name="next_inspection_date"
+                className="form-control"
+                value={formData.next_inspection_date || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              {/* Tom div för att fylla ut grid */}
             </div>
           </div>
 

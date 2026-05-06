@@ -30,6 +30,7 @@ export default function CarCard({ car }) {
                     <span className={styles.yearBadge}>{car.year}</span>
                     {car.variant && <span className={styles.glassBadge}>{car.variant}</span>}
                     {car.color && <span className={styles.glassBadge}>{car.color}</span>}
+                    {car.location && <span className={styles.glassBadge}>{car.location}</span>}
                 </div>
             </div>
 

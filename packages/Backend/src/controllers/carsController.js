@@ -52,6 +52,11 @@ async function addCar(db, carData) {
     fuel_type,
     description,
     equipment,
+    location,
+    weight,
+    fuel_consumption,
+    number_of_owners,
+    next_inspection_date,
   } = carData;
   const id = crypto.randomUUID();
   const listingId = await generateUniqueListingId(db);
@@ -87,9 +92,9 @@ async function addCar(db, carData) {
             INSERT INTO cars (
               id, listing_id, dealer_id, brand, model, variant, color, transmission,
               horsepower, registration_number, registration_date, max_trailer_weight, drivetrain, seats, engine_volume, range_wltp,
-              year, price, mileage, fuel_type, description, equipment, image_url, updated_at
+              year, price, mileage, fuel_type, description, equipment, location, weight, fuel_consumption, number_of_owners, next_inspection_date, image_url, updated_at
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `,
       [
         id,
@@ -114,6 +119,11 @@ async function addCar(db, carData) {
         fuel_type,
         description,
         equipmentJson,
+        location || "Eskilstuna",
+        weight ? Number(weight) : null,
+        parseDecimalValue(fuel_consumption),
+        number_of_owners ? Number(number_of_owners) : null,
+        next_inspection_date || "",
         primaryImage,
         now,
       ],
@@ -173,6 +183,8 @@ async function updateCar(db, carId, carData) {
       "max_trailer_weight",
       "seats",
       "range_wltp",
+      "weight",
+      "number_of_owners"
     ];
     for (const key of numericFields) {
       if (fieldsToUpdate[key] !== undefined) {
@@ -187,6 +199,11 @@ async function updateCar(db, carId, carData) {
     if (fieldsToUpdate.engine_volume !== undefined) {
       fieldsToUpdate.engine_volume = parseDecimalValue(
         fieldsToUpdate.engine_volume,
+      );
+    }
+    if (fieldsToUpdate.fuel_consumption !== undefined) {
+      fieldsToUpdate.fuel_consumption = parseDecimalValue(
+        fieldsToUpdate.fuel_consumption,
       );
     }
 
@@ -210,6 +227,11 @@ async function updateCar(db, carId, carData) {
       "mileage",
       "fuel_type",
       "description",
+      "location",
+      "weight",
+      "fuel_consumption",
+      "number_of_owners",
+      "next_inspection_date",
       "image_url",
       "equipment",
       "updated_at",

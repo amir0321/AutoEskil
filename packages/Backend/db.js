@@ -168,6 +168,27 @@ async function migrateCarsTable(client) {
     );
   }
 
+  // Nya fält: plats, vikt, bränsleförbrukning, antal ägare, nästa besiktningsdatum
+  if (!columnNames.has("location")) {
+    await client.query("ALTER TABLE cars ADD COLUMN location TEXT DEFAULT 'Eskilstuna'");
+  }
+
+  if (!columnNames.has("weight")) {
+    await client.query("ALTER TABLE cars ADD COLUMN weight INTEGER");
+  }
+
+  if (!columnNames.has("fuel_consumption")) {
+    await client.query("ALTER TABLE cars ADD COLUMN fuel_consumption REAL");
+  }
+
+  if (!columnNames.has("number_of_owners")) {
+    await client.query("ALTER TABLE cars ADD COLUMN number_of_owners INTEGER");
+  }
+
+  if (!columnNames.has("next_inspection_date")) {
+    await client.query("ALTER TABLE cars ADD COLUMN next_inspection_date TEXT DEFAULT ''");
+  }
+
   // Skapa index för listing_id
   await client.query(`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_cars_listing_id ON cars(listing_id)
@@ -231,6 +252,11 @@ async function setupDB() {
         description TEXT,
         image_url TEXT NOT NULL,
         equipment TEXT DEFAULT '[]',
+        location TEXT DEFAULT 'Eskilstuna',
+        weight INTEGER,
+        fuel_consumption REAL,
+        number_of_owners INTEGER,
+        next_inspection_date TEXT DEFAULT '',
         created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (dealer_id) REFERENCES dealers(id) ON DELETE CASCADE

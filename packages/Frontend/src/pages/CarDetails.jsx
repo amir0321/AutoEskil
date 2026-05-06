@@ -17,6 +17,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  MapPin,
+  Users,
 } from "lucide-react";
 import CarCard from "../components/CarCard";
 import useFetch from "../hooks/useFetch";
@@ -246,6 +248,16 @@ function CarDetailsInner() {
   const wltpRange = hasValue(car.range_wltp)
     ? `${Number(car.range_wltp).toLocaleString("sv-SE")} km`
     : null;
+  const location = hasValue(car.location) ? car.location : null;
+  const weight = hasValue(car.weight)
+    ? `${Number(car.weight).toLocaleString("sv-SE")} kg`
+    : null;
+  const fuelConsumption = hasValue(car.fuel_consumption)
+    ? `${Number(car.fuel_consumption).toLocaleString("sv-SE", { minimumFractionDigits: 1, maximumFractionDigits: 2 })} l/100km`
+    : null;
+  const numberOfOwners = hasValue(car.number_of_owners) ? car.number_of_owners : null;
+  const nextInspectionDate = hasValue(car.next_inspection_date) ? car.next_inspection_date : null;
+  
   const listingId = car.listing_id || car.id;
   const lastUpdated = formatLastUpdated(car.updated_at || car.created_at);
 
@@ -321,6 +333,26 @@ function CarDetailsInner() {
       label: "Motorvolym",
       value: engineVolume,
       icon: <Fuel size={18} />,
+    },
+    weight && {
+      label: "Vikt",
+      value: weight,
+      icon: <Scale size={18} />,
+    },
+    fuelConsumption && {
+      label: "Bränsleförbrukning",
+      value: fuelConsumption,
+      icon: <Fuel size={18} />,
+    },
+    numberOfOwners && {
+      label: "Antal ägare",
+      value: numberOfOwners,
+      icon: <Users size={18} />,
+    },
+    nextInspectionDate && {
+      label: "Nästa besiktning",
+      value: nextInspectionDate,
+      icon: <Calendar size={18} />,
     },
   ].filter(Boolean);
   const visibleSpecs = showAllSpecs ? specs : specs.slice(0, 7);
@@ -470,6 +502,11 @@ function CarDetailsInner() {
 
           <div className={styles.heroHeader}>
             <div>
+              {location && (
+                <p className={styles.eyebrow} style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                  <MapPin size={14} /> Finns i {location}
+                </p>
+              )}
               <p className={styles.eyebrow}>Premium urval</p>
               <p className={styles.eyebrow}>Annons-ID: {listingId}</p>
               <p className={styles.eyebrow}>Senast uppdaterad: {lastUpdated}</p>
