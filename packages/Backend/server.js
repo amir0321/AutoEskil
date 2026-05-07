@@ -115,6 +115,12 @@ app.use(
   }),
 );
 
+// Add Permissions-Policy to silence Browsing Topics API warnings from iframes (e.g., reCAPTCHA)
+app.use((req, res, next) => {
+  res.setHeader("Permissions-Policy", "browsing-topics=()");
+  next();
+});
+
 // Limit JSON payload size to prevent large-body DoS attacks
 app.use(express.json({ limit: '50kb' }));
 app.use(cookieParser());
