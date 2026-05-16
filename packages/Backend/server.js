@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import { existsSync } from "fs";
 
 dotenv.config();
 
@@ -175,11 +176,11 @@ setupDB()
         ).replace(/\/$/, "");
 
         const staticUrls = [
-          { path: "/", priority: "1.0", changefreq: "daily" },
+          { path: "/", priority: "1.0", changefreq: "weekly" },
           { path: "/bilar", priority: "0.9", changefreq: "daily" },
-          { path: "/om-oss", priority: "0.6", changefreq: "monthly" },
-          { path: "/kontakt", priority: "0.7", changefreq: "weekly" },
-          { path: "/sell-car", priority: "0.6", changefreq: "weekly" },
+          { path: "/kontakt", priority: "0.8", changefreq: "monthly" },
+          { path: "/sell-car", priority: "0.7", changefreq: "monthly" },
+          { path: "/om-oss", priority: "0.5", changefreq: "monthly" },
         ];
 
         const cars = await db.all(
@@ -237,10 +238,18 @@ setupDB()
     // Protected admin routes
     app.use("/api/admin", adminRoutes);
 
-    // Skicka index.html för alla andra routes (React Router)
+    // Skicka prerenderad index.html per route om den finns, annars root index.html
     app.get(/(.*)/, (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+      const routeHtml = path.join(distPath, req.path, "index.html");
+      if (existsSync(routeHtml)) {
+        res.sendFile(routeHtml);
+      } else {
+        res.sendFile(path.join(distPath, "index.html"));
+      }
     });
+
+
+
 
     app.listen(PORT, () => {
       console.log(`--- BILFÖRMEDLING ESKILSTUNA ---`);

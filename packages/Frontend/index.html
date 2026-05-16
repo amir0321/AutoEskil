@@ -10,40 +10,80 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" /></noscript>
-    <title>AutoEskil – Bilförmedling i Eskilstuna</title>
-    <meta
-      name="description"
-      content="AutoEskil är Eskilstunas ledande bilförmedling. Hitta din nästa bil bland vårt handplockade sortiment, eller lämna en intresseanmälan så matchar vi dig med rätt fordon."
-    />
-    <meta
-      name="keywords"
-      content="bilförmedling, Eskilstuna, begagnade bilar, köpa bil, sälja bil, AutoEskil"
-    />
-    <meta
-      property="og:title"
-      content="AutoEskil – Bilförmedling i Eskilstuna"
-    />
-    <meta
-      property="og:description"
-      content="Hitta din nästa bil i Eskilstuna. Handplockade fordon, snabb matchning och professionell service."
-    />
+
+    <!-- Primär SEO -->
+    <title>AutoEskil – Bilförmedling i Eskilstuna | Begagnade Bilar</title>
+    <meta name="description" content="AutoEskil är Eskilstunas ledande bilförmedling. Köp begagnad bil, sälj din bil eller lämna en intresseanmälan – vi matchar dig med rätt fordon inom 24h." />
+    <meta name="keywords" content="bilförmedling Eskilstuna, begagnade bilar Eskilstuna, köpa bil Eskilstuna, sälja bil Eskilstuna, AutoEskil, bilhandlare Eskilstuna, begagnad bil Sörmland" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="AutoEskil AB" />
+    <link rel="canonical" href="https://autoeskil.se/" />
+
+    <!-- Open Graph (för delning i sociala medier och Google) -->
+    <meta property="og:site_name" content="AutoEskil" />
+    <meta property="og:title" content="AutoEskil – Bilförmedling i Eskilstuna" />
+    <meta property="og:description" content="Hitta din nästa bil i Eskilstuna. Handplockade fordon, snabb matchning och professionell service. Svar inom 24 timmar." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://autoeskil.se/" />
+    <meta property="og:image" content="https://autoeskil.se/assets/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AutoEskil – Bilförmedling i Eskilstuna" />
     <meta property="og:locale" content="sv_SE" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AutoEskil – Bilförmedling i Eskilstuna" />
+    <meta name="twitter:description" content="Hitta din nästa bil i Eskilstuna. Handplockade fordon, snabb matchning och professionell service." />
+    <meta name="twitter:image" content="https://autoeskil.se/assets/og-image.jpg" />
+
+    <!-- Schema.org strukturerad data – lokal bilförmedling -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "AutoDealer",
         "name": "AutoEskil",
+        "alternateName": "AutoEskil AB",
+        "description": "Eskilstunas ledande bilförmedling. Vi förmedlar handplockade begagnade bilar med full transparens och personlig service.",
         "url": "https://autoeskil.se",
+        "logo": "https://autoeskil.se/assets/hero_home.svg",
+        "image": "https://autoeskil.se/assets/og-image.jpg",
         "email": "info@autoeskil.se",
-        "telephone": "073-652 25 75",
+        "telephone": "+46736522575",
+        "priceRange": "kr",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Eskilstuna",
+          "addressRegion": "Sörmland",
           "addressCountry": "SE"
         },
-        "areaServed": "Sörmland"
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "59.3710",
+          "longitude": "16.5099"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "00:00",
+            "closes": "23:59"
+          }
+        ],
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Eskilstuna"
+          },
+          {
+            "@type": "State",
+            "name": "Sörmland"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com",
+          "https://www.instagram.com"
+        ]
       }
     </script>
   </head>
