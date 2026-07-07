@@ -1,0 +1,462 @@
+/* Contact.module.css */
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding: 8rem 4rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.pageHeader {
+    margin-bottom: 2rem;
+    padding: 1.2rem 1.3rem;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background:
+        radial-gradient(circle at top right, rgba(14, 165, 233, 0.14), transparent 45%),
+        linear-gradient(155deg, rgba(15, 23, 42, 0.86), rgba(2, 6, 23, 0.84));
+    box-shadow: 0 24px 42px -30px rgba(2, 6, 23, 0.95);
+}
+
+.headerBadge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.35rem 0.78rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #bae6fd;
+    background: rgba(14, 165, 233, 0.16);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.pageTitle {
+    font-size: 2.8rem;
+    margin-bottom: 0.75rem;
+}
+
+.pageSubtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 550px;
+}
+
+.headerMeta {
+    margin-top: 0.95rem;
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.metaPill {
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: rgba(255, 255, 255, 0.03);
+    color: #cbd5e1;
+    font-size: 0.78rem;
+    padding: 0.28rem 0.62rem;
+    border-radius: 999px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.infoList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.infoCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.infoCard:hover {
+    transform: translateY(-2px);
+    border-color: rgba(14, 165, 233, 0.34);
+    background: rgba(14, 165, 233, 0.06);
+}
+
+.infoIcon {
+    font-size: 1.2rem;
+    margin-top: 0.1rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(14, 165, 233, 0.14);
+    border: 1px solid rgba(14, 165, 233, 0.28);
+}
+
+.infoLabel {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.infoValue {
+    font-size: 0.95rem;
+    white-space: pre-line;
+}
+
+/* Form */
+.formInner {
+    display: flex;
+    flex-direction: column;
+}
+
+.formCard {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 18px;
+    box-shadow: 0 26px 40px -30px rgba(14, 165, 233, 0.38);
+    background:
+        radial-gradient(circle at top right, rgba(14, 165, 233, 0.1), transparent 45%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+.formInner :global(.form-control) {
+    min-height: 46px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: rgba(15, 23, 42, 0.52);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.formInner :global(.form-control:hover) {
+    border-color: rgba(14, 165, 233, 0.4);
+}
+
+.formInner :global(.form-control:focus) {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+    background: rgba(15, 23, 42, 0.74);
+}
+
+.formInner :global(textarea.form-control) {
+    min-height: 110px;
+}
+
+.formTitle {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.formSection {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin: 0.5rem 0 1rem;
+}
+
+.optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.submitBtn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    padding: 0.9rem;
+    cursor: pointer;
+}
+
+.errorBanner {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Success state */
+.successState {
+    text-align: center;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.successIcon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.successSub {
+    color: var(--text-muted);
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+.matchList {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 0.5rem;
+    background: rgba(14, 165, 233, 0.07);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.matchTitle {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.matchItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.matchCarName {
+    font-weight: 600;
+}
+
+.matchCarPrice {
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.resetBtn {
+    margin-top: 1rem;
+    border-radius: 9999px;
+    cursor: pointer;
+}
+
+/* Ny Grid för matchade bilar */
+.matchGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.8rem;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.matchGrid > * {
+    animation: popInCard 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.matchGrid > *:nth-child(1) { animation-delay: 0.1s; }
+.matchGrid > *:nth-child(2) { animation-delay: 0.2s; }
+.matchGrid > *:nth-child(3) { animation-delay: 0.3s; }
+.matchGrid > *:nth-child(4) { animation-delay: 0.4s; }
+.matchGrid > *:nth-child(5) { animation-delay: 0.5s; }
+.matchGrid > *:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes popInCard {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.matchActions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.matchToggleBtn {
+    border-radius: 999px;
+    min-width: 220px;
+    padding: 0.85rem 1.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #bae6fd; /* Ljusblå text */
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    box-shadow: 0 4px 15px -3px rgba(14, 165, 233, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* Om du vill lägga till en ikon inuti knappen i framtiden */
+}
+
+.matchToggleBtn:hover {
+    background: rgba(14, 165, 233, 0.15);
+    border-color: rgba(14, 165, 233, 0.8);
+    box-shadow: 0 8px 25px -5px rgba(14, 165, 233, 0.35);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+/* Klick-effekt */
+.matchToggleBtn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px -2px rgba(14, 165, 233, 0.3);
+}
+
+.pageHeader,
+.formCard,
+.infoCard {
+    animation: riseIn 480ms ease both;
+}
+
+.formCard {
+    animation-delay: 70ms;
+}
+
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2.5rem;
+    border-top: 1px solid var(--card-border);
+    margin-top: 4rem;
+}
+
+.footerSub {
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .content {
+        padding: 6.6rem 1rem 2.8rem;
+    }
+
+    .pageHeader {
+        margin-bottom: 1.3rem;
+        padding: 1rem;
+        border-radius: 14px;
+    }
+
+    .pageTitle {
+        font-size: 2.2rem;
+    }
+
+    .pageSubtitle {
+        font-size: 1rem;
+    }
+
+    .infoCard {
+        padding: 1rem 1rem;
+    }
+
+    .matchGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pageHeader,
+    .formCard,
+    .infoCard {
+        animation: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .formRow {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    .pageTitle {
+        font-size: 1.82rem;
+    }
+
+    .formTitle {
+        font-size: 1.15rem;
+        margin-bottom: 1rem;
+    }
+
+    .submitBtn,
+    .resetBtn,
+    .matchToggleBtn {
+        min-height: 44px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .successState {
+        padding: 1.2rem 0.25rem;
+    }
+
+    .successSub {
+        font-size: 0.92rem;
+    }
+
+    .formSection {
+        margin: 0.25rem 0 0.7rem;
+    }
+}

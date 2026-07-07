@@ -1,0 +1,360 @@
+/* About.module.css */
+.page {
+    padding: 0;
+    background-color: var(--bg);
+}
+
+/* ─── Hero ─── */
+.hero {
+    position: relative;
+    width: 100%;
+    min-height: 50vh;
+    padding-top: 88px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.heroImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.32);
+    transform-origin: center;
+    will-change: transform, filter;
+    animation: aboutHeroMotion 16s ease-in-out infinite;
+}
+
+.heroText {
+    position: relative;
+    z-index: 2;
+    padding: 0 1.5rem;
+    animation: fadeIn 0.9s ease-in-out;
+}
+
+.heroBadge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.35rem 0.78rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #bae6fd;
+    border: 1px solid rgba(14, 165, 233, 0.34);
+    background: rgba(14, 165, 233, 0.17);
+}
+
+.heroText h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.heroText p {
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+    color: var(--text-muted);
+}
+
+.heroMeta {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.heroMetaPill {
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    background: rgba(15, 23, 42, 0.58);
+    color: #cbd5e1;
+    padding: 0.26rem 0.62rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+}
+
+/* ─── Content ─── */
+.content {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+.aboutCard h2 {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.aboutCard {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 24px 42px -32px rgba(2, 6, 23, 0.95);
+    background:
+        radial-gradient(circle at top right, rgba(14, 165, 233, 0.1), transparent 45%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+.aboutCard p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-soft);
+    margin-bottom: 0.75rem;
+}
+
+/* ─── Philosophy ─── */
+.philosophySection h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.philosophyCards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.philosophyCard {
+    background: var(--bg-2);
+    padding: 2rem 1.75rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.7);
+}
+
+.philosophyCard:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 36px -18px rgba(0, 0, 0, 0.75);
+    border-color: rgba(0, 123, 255, 0.3);
+}
+
+.philosophyCard h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.85rem;
+    color: var(--text-primary);
+}
+
+.philosophyCard p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+/* ─── Trust Bar ─── */
+.trustBar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.5rem;
+}
+
+.trustItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+    min-width: 130px;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.trustItem:hover {
+    transform: translateY(-2px);
+    background: rgba(14, 165, 233, 0.06);
+}
+
+.trustIcon {
+    font-size: 1.75rem;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.trustStat {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, white 0%, var(--text-soft) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.trustLabel {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+}
+
+/* ─── CTA Section ─── */
+.ctaSection {
+    text-align: center;
+    padding: 3rem 2.5rem;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 24px 40px -30px rgba(14, 165, 233, 0.35);
+}
+
+.ctaSection h2 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.ctaSection p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+}
+
+.ctaBtns {
+    display: flex;
+    gap: 0.875rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.aboutCard,
+.philosophySection,
+.trustBar,
+.ctaSection {
+    animation: riseIn 520ms ease both;
+}
+
+.philosophySection {
+    animation-delay: 60ms;
+}
+
+.trustBar {
+    animation-delay: 90ms;
+}
+
+.ctaSection {
+    animation-delay: 120ms;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 46vh;
+        padding-top: 78px;
+    }
+
+    .content {
+        padding: 3rem 1.25rem 4rem;
+        gap: 2.5rem;
+    }
+
+    .philosophyCards {
+        grid-template-columns: 1fr;
+    }
+
+    .trustBar {
+        gap: 0.5rem;
+    }
+
+    .trustItem {
+        min-width: 100px;
+    }
+
+    .ctaSection {
+        padding: 2.25rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .philosophyCards {
+        grid-template-columns: 1fr;
+    }
+
+    .trustStat {
+        font-size: 1.5rem;
+    }
+
+    .ctaBtns {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ctaBtns a {
+        justify-content: center;
+    }
+}
+
+/* ─── Animation ─── */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes aboutHeroMotion {
+    0% {
+        transform: scale(1.05) translateY(0px);
+        filter: brightness(0.32);
+    }
+    50% {
+        transform: scale(1.12) translateY(-14px);
+        filter: brightness(0.38);
+    }
+    100% {
+        transform: scale(1.05) translateY(0px);
+        filter: brightness(0.32);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .heroImage {
+        animation: none;
+        transform: none;
+    }
+
+    .aboutCard,
+    .philosophySection,
+    .trustBar,
+    .ctaSection,
+    .heroText {
+        animation: none;
+    }
+}

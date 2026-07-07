@@ -1,0 +1,25 @@
+{
+  "name": "autoeskil",
+  "version": "1.0.0",
+  "description": "Full-stack car marketplace application",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "install-all": "npm install && npm install --prefix packages/Frontend && npm install --prefix packages/Backend",
+    "dev": "sh -c 'npm --prefix packages/Backend start & npm --prefix packages/Frontend run dev; wait'",
+    "backend:start": "npm --prefix packages/Backend start",
+    "backend:test": "npm --prefix packages/Backend test",
+    "frontend:dev": "npm --prefix packages/Frontend run dev",
+    "frontend:build": "npm --prefix packages/Frontend run build",
+    "frontend:lint": "npm --prefix packages/Frontend run lint",
+    "frontend:preview": "npm --prefix packages/Frontend run preview",
+    "build": "npm --prefix packages/Frontend run build",
+    "start": "node packages/Backend/server.js"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.7.2"
+  }
+}

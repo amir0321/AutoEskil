@@ -1,0 +1,8 @@
+/* Alla routes dirigeras till index.html (SPA fallback)
+   De statiska prerenderade filerna serveras direkt om de finns */
+/*    /index.html    200
+/bilar    /bilar/index.html    200
+/om-oss    /om-oss/index.html    200
+/kontakt    /kontakt/index.html    200
+/sell-car    /sell-car/index.html    200
+/*    /index.html    200
