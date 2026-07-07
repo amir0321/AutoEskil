@@ -80,7 +80,6 @@ Du behöver inte göra något i det här steget! Gå direkt till **Steg 3**.
     | Nyckel | Värde |
     |--------|-------|
     | `DATABASE_URL` | `postgresql://USER:PASSWORD@HOST/DBNAME` |
-    | `RENDER_DATABASE_URL` | Full Render URL, if `DATABASE_URL` is missing the `*.render.com` host |
     | `JWT_SECRET` | Generera: `openssl rand -base64 32` |
     | `ALLOWED_ORIGINS` | `https://autoeskil.se,https://www.autoeskil.se` |
     | `PUBLIC_SITE_URL` | `https://autoeskil.se` |
