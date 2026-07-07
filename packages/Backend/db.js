@@ -3,8 +3,76 @@ import crypto from "crypto";
 
 const { Pool } = pg;
 
-// Få DATABASE_URL från miljövariabel (från Render)
-let DATABASE_URL = process.env.DATABASE_URL;
+function parseDatabaseUrl(url) {
+  if (!url) return null;
+
+  try {
+    return new URL(url);
+  } catch {
+    return null;
+  }
+}
+
+function isIncompleteRenderUrl(url) {
+  const parsed = parseDatabaseUrl(url);
+  if (!parsed) return false;
+
+  return parsed.hostname.startsWith("dpg-") && !parsed.hostname.includes(".");
+}
+
+function buildDatabaseUrlFromPgEnv() {
+  const host = process.env.PGHOST || process.env.POSTGRES_HOST;
+  const database = process.env.PGDATABASE || process.env.POSTGRES_DB;
+  const user = process.env.PGUSER || process.env.POSTGRES_USER;
+  const password = process.env.PGPASSWORD || process.env.POSTGRES_PASSWORD;
+  const port = process.env.PGPORT || process.env.POSTGRES_PORT || "5432";
+
+  if (!host || !database || !user) {
+    return null;
+  }
+
+  const auth = password ? `${encodeURIComponent(user)}:${encodeURIComponent(password)}` : encodeURIComponent(user);
+  return `postgresql://${auth}@${host}:${port}/${database}`;
+}
+
+function resolveDatabaseUrl() {
+  const primaryUrl = process.env.DATABASE_URL;
+  const renderUrl = process.env.RENDER_DATABASE_URL;
+  const pgUrl = buildDatabaseUrlFromPgEnv();
+
+  if (primaryUrl && !isIncompleteRenderUrl(primaryUrl)) {
+    return primaryUrl;
+  }
+
+  if (primaryUrl && isIncompleteRenderUrl(primaryUrl) && !renderUrl) {
+    console.warn(
+      "WARNING: DATABASE_URL ser ut att sakna Render-domänen. Lägg in hela URL:en som slutar på *.render.com.",
+    );
+  }
+
+  if (primaryUrl && renderUrl && isIncompleteRenderUrl(primaryUrl)) {
+    console.warn(
+      "WARNING: DATABASE_URL ser ut att sakna Render-domänen. Använder RENDER_DATABASE_URL istället.",
+    );
+    return renderUrl;
+  }
+
+  if (renderUrl) {
+    return renderUrl;
+  }
+
+  if (pgUrl) {
+    console.warn(
+      "WARNING: Using PG* environment variables to build the database connection string.",
+    );
+    return pgUrl;
+  }
+
+  return primaryUrl;
+}
+
+// Hämta databas-URL från miljövariablerna.
+let DATABASE_URL = resolveDatabaseUrl();
 
 // Debugging: log a masked DATABASE_URL (don't print credentials)
 function maskDatabaseUrl(url) {
@@ -27,8 +95,10 @@ if (!DATABASE_URL) {
   console.warn("WARNING: DATABASE_URL not set, using localhost");
 }
 
-// Ensure SSL is configured for Render databases (dpg-)
-const isRenderDatabase = (DATABASE_URL || "").includes("dpg-");
+// Ensure SSL is configured for Render databases.
+const resolvedHost = parseDatabaseUrl(DATABASE_URL)?.hostname || "";
+const isRenderDatabase =
+  resolvedHost.includes("render.com") || resolvedHost.startsWith("dpg-");
 const sslConfig = isRenderDatabase ? { rejectUnauthorized: false } : false;
 
 console.log("Using SSL:", sslConfig ? "YES (Render database)" : "NO");
