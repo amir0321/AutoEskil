@@ -20,6 +20,20 @@ function isIncompleteRenderUrl(url) {
   return parsed.hostname.startsWith("dpg-") && !parsed.hostname.includes(".");
 }
 
+function completeRenderDatabaseUrl(url) {
+  const parsed = parseDatabaseUrl(url);
+  if (!parsed || !isIncompleteRenderUrl(url)) {
+    return url;
+  }
+
+  const suffix =
+    process.env.RENDER_DATABASE_HOST_SUFFIX ||
+    "frankfurt-postgres.render.com";
+
+  parsed.hostname = `${parsed.hostname}.${suffix}`;
+  return parsed.toString();
+}
+
 function buildDatabaseUrlFromPgEnv() {
   const host = process.env.PGHOST || process.env.POSTGRES_HOST;
   const database = process.env.PGDATABASE || process.env.POSTGRES_DB;
@@ -46,8 +60,9 @@ function resolveDatabaseUrl() {
 
   if (primaryUrl && isIncompleteRenderUrl(primaryUrl) && !renderUrl) {
     console.warn(
-      "WARNING: DATABASE_URL ser ut att sakna Render-domänen. Lägg in hela URL:en som slutar på *.render.com.",
+      "WARNING: DATABASE_URL ser ut att sakna Render-domänen. Fyller på med Render-suffix automatiskt.",
     );
+    return completeRenderDatabaseUrl(primaryUrl);
   }
 
   if (primaryUrl && renderUrl && isIncompleteRenderUrl(primaryUrl)) {
